@@ -1,0 +1,34 @@
+.ProfileTag {
+    position: relative;
+    height: 60px;
+
+    &::before {
+        content: "";
+        position: absolute;
+        background-color: var(--main-bg);
+        width: 95%;
+        height: 1px;
+        bottom: -5px;
+    }
+
+    .left {
+
+        img {
+            border-radius: 50%;
+            object-fit: cover;
+            height: 50px;
+            width: 50px;
+        }
+
+        .text {
+            h3 {
+                font-size: var(--name);
+            }
+
+            p {
+                font-size: var(--text);
+                color: var(--comment);
+            }
+        }
+    }
+}
