@@ -1,18 +1,25 @@
-import { useState } from "react";
-import "./App.css";
-import Ad from "./Component/Ad";
-import Footer from "./Component/Footer";
-import Header from "./Component/Header.jsx";
-import Hero from "./Component/Hero";
+// import "./App.css";
+import Login from "./Pages/Login";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Home from "./Pages/Home";
 
 function App() {
+  const authStatus = useSelector((state) => state.auth);
+  console.log("App status", authStatus);
+  // const { auth } = authStatus;
+  const { auth } = true;
+
   return (
-    <div className="MainContainer">
-      <Header />
-      <Hero />
-      <Ad />
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {auth == false ? (
+          <Route path="/" element={<Login />} />
+        ) : (
+          <Route path="/" element={<Home />} />
+        )}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
