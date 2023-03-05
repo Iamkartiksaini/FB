@@ -1,0 +1,11 @@
+.Upload {
+    span {
+        p {
+            color: var(--comment);
+        }
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+}

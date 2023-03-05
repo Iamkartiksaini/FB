@@ -1,5 +1,6 @@
 .SideBar {
     background-color: white;
+    height: max-content;
 
     .info {
         display: flex;
@@ -54,8 +55,20 @@
     }
 
     .Links {
-        h3 {
+        h2 {
             font-size: var(--heading);
+            margin-bottom: 8xpx;
+        }
+
+        h3 {
+            font-size: var(--name);
+
+        }
+
+        .info {
+            &::before {
+                display: none;
+            }
         }
     }
 }
