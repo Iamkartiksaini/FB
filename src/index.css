@@ -9,13 +9,15 @@
   --name: 14px;
   --text: 12px;
 }
+
 .Content-Container {
   font-family: monospace;
   display: flex;
   padding: 20px;
-  justify-content: space-evenly;
   gap: 20px;
   min-height: 100vh;
+  justify-content: center;
+  background-color: var(--main-bg);
 }
 .Content-Container > * {
   border-radius: 18px;
@@ -24,16 +26,24 @@
 .Content-Container aside {
   flex-basis: 250px;
 }
-.Ad {
-  flex-basis: 250px;
+
+.Ad .img {
   padding: 20px;
-  background-color: aquamarine;
+  background-color: white;
 }
 .Content-Container .Content {
-  flex-basis: 50%;
+  flex-basis: 40%;
   flex-shrink: 0;
-  padding: 20px;
-  background-color: aliceblue;
+  background-color: var(--main-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0px 0.5rem;
+}
+.Content-Container .Content .allPosts {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1.5rem;
 }
 .content {
   background-image: url("./assets/Group 15.jpg");
