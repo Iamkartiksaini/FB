@@ -11,7 +11,7 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = function () {
-    dispatch({ type: "login", data: { name: state, user_id: state2 } });
+    dispatch({ type: "login", data: { username: state, userID: state2 } });
   };
 
   // if (page === "login") {
