@@ -5,14 +5,14 @@ const link = "http://localhost:4000/";
 const postApi = () => {
   return {
     get() {
-      return axios.get(link + "post/13");
+      return axios.get(link + "post/123");
     },
     post(body) {
       return axios.post(link + "post/123", body);
     },
-    delete(body) {
-      console.log("this.delete", body);
-      return 6;
+    delete(id) {
+      const body = { id: id };
+      return axios.post("http://localhost:4000/post/delete", body);
     },
   };
 };

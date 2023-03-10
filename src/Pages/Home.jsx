@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import AsideBar from "./SideBar";
-import Header from "./Header";
+import AsideBar from "../Component/SideBar";
+import Header from "../Component/Header";
 import Upload from "./Upload";
-import Ad from "./Ad";
+import Ad from "../Component/Ad";
 import AllPosts from "./AllPosts";
-import Postmodel from "./Postmodel";
+import Postmodel from "../Component/Postmodel";
+import DataTable from "../Component/DataTable";
 
 const Home = () => {
   const authStatus = useSelector((state) => state.auth);
@@ -19,6 +20,7 @@ const Home = () => {
 
   return (
     <div className=" Main-Container ">
+      {/* <DataTable /> */}
       <Header />
       <button onClick={() => dispatch({ type: "open" })}>
         {x == true ? "Close model" : " Open model"}
@@ -31,8 +33,8 @@ const Home = () => {
             <AllPosts />
           </div>
         </div>
-        <Ad />
-        <Postmodel />
+        {/* <Ad />
+        <Postmodel /> */}
       </div>
     </div>
   );

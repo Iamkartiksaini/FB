@@ -1,0 +1,44 @@
+.Posts {
+    background-color: white;
+    border-radius: 18px;
+
+    .Media {
+        background-color: var(--main-bg);
+
+        img {
+            max-height: 400px;
+            width: auto;
+            object-fit: contain;
+        }
+    }
+
+    .feed {
+        span {
+            transition: 0.3s ease-in-out;
+            padding: 5px 10px;
+            border-radius: 6px;
+
+            &:hover {
+                color: white;
+            }
+        }
+
+        span.reactionHover {
+            &:hover {
+                background-color: #105f78;
+            }
+        }
+
+        span.commentHover {
+            &:hover {
+                background-color: #ff6a00;
+            }
+        }
+
+        span.deleteHover {
+            &:hover {
+                background-color: rgb(247, 57, 57);
+            }
+        }
+    }
+}

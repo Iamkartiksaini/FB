@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { InputText } from "primereact/inputtext";
 import "../Style/Upload.scss";
 import postApi from "../Redux/Api.js";
+import UserApi from "../Redux/UserApi";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 
 const Upload = () => {
   const [value, setValue] = useState("");
   const [img, setImg] = useState("");
+  const [upFile, updateFile] = useState("");
+  const [mType, setMtype] = useState("");
+  const [mediaName, updateMediaName] = useState("");
+  const imgRef = useRef();
+  const vidRef = useRef();
+
   const dispatch = useDispatch();
 
   const imgStyle = {
@@ -34,18 +42,41 @@ const Upload = () => {
     username: "kartik",
     userID: "kartik23",
     dp: "https://images.pexels.com/photos/15311317/pexels-photo-15311317.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-    media: "",
+    mediaType: mType == "" ? "" : mType,
     text: value,
-    tag: " req.body.tag",
-    media: "",
+    tag: " Gurugram,HR",
+    media:
+      upFile == ""
+        ? ""
+        : `http://localhost:4000/assets/${
+            mediaName === "" ? upFile.name : mediaName
+          }`,
   };
   const post = async () => {
+    if (mType !== "") {
+      const form = new FormData();
+      form.set("file", upFile);
+      await axios.post("http://localhost:8000/upload", form).then((res) => {
+        updateMediaName(res.data.originalname);
+        console.log("Uploading media res ", res.data);
+      });
+    }
     const x = await postApi().post(body);
     const y = await postApi().get();
-    console.log("xyz", y);
+    // console.log("create post res", x);
+
     if (x.status === 201 && y.status === 200) {
       dispatch({ type: "update", updatedArray: y.data });
+      const userRES = await UserApi().addPost({
+        userID: "Kartik23",
+        postID: x.data._id,
+        type: "add",
+      });
+      // console.log("add in user ", userRES);
       setValue("");
+      setMtype("");
+      imgRef.current.value = "";
+      vidRef.current.value = "";
     }
   };
 
@@ -64,12 +95,24 @@ const Upload = () => {
           placeholder="Whats in your mind ?"
         />
       </div>
-      <div className="preview">
-        <img
-          style={{ maxHeight: "400px", width: "auto" }}
-          src={img}
-          alt="img"
-        />
+      <div className="preview flex justify-content-center bg-black-alpha-10 border-round-xl">
+        {mType == "image" ? (
+          <img
+            style={{ maxHeight: "400px", width: "auto" }}
+            src={img}
+            alt="img"
+          />
+        ) : null}
+
+        {mType == "video" ? (
+          <video
+            className="Media flex justify-content-center "
+            style={{ maxHeight: "400px", width: "auto" }}
+            src={img}
+            alt={img}
+            controls
+          />
+        ) : null}
       </div>
 
       <div className="media flex gap-2 justify-content-between " style={link}>
@@ -77,9 +120,13 @@ const Upload = () => {
           type="file"
           name="image"
           id="image"
+          ref={imgRef}
+          onClick={(e) => (e.target.value = "")}
           onChange={(e) => {
             const file = e.target.files[0];
             setImg(URL.createObjectURL(file));
+            updateFile(file);
+            setMtype("image");
           }}
         />
         <label
@@ -90,8 +137,19 @@ const Upload = () => {
           <i className=" pi pi-image" style={{ fontSize: "1em" }}></i>
           <p>Image</p>
         </label>
-        <input type="file" name="video" id="video" />
-
+        <input
+          type="file"
+          name="video"
+          id="video"
+          ref={vidRef}
+          onClick={(e) => (e.target.value = "")}
+          onChange={(e) => {
+            const file = e.target.files[0];
+            setImg(URL.createObjectURL(file));
+            updateFile(file);
+            setMtype("video");
+          }}
+        />
         <label htmlFor="video" className="flex align-items-center gap-1">
           <svg
             width="24"
@@ -135,7 +193,17 @@ const Upload = () => {
           </svg>
           <p>Media</p>
         </label>
-        <input type="file" name="audio" id="audio" />
+        <input
+          type="file"
+          name="audio"
+          id="audio"
+          onChange={(e) => {
+            const file = e.target.files[0];
+            setImg(URL.createObjectURL(file));
+            updateFile(file);
+            setMtype("audio");
+          }}
+        />
         <label htmlFor="audio" className="flex align-items-center gap-1">
           <svg
             width="24"
@@ -168,7 +236,7 @@ const Upload = () => {
           </svg>
           <p>Audio</p>
         </label>
-        <span className="flex align-items-center gap-1">
+        <span className="flex align-items-center gap-1 ">
           <svg
             width="24"
             height="24"
@@ -178,24 +246,24 @@ const Upload = () => {
           >
             <path
               d="M16 14V17C16 19.2091 14.2091 21 12 21V21C9.79086 21 8 19.2091 8 17V14"
-              stroke="#33363F"
+              stroke="#000000"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
             <path
               d="M12 8V16"
-              stroke="#33363F"
+              stroke="#000000"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
             <path
               d="M16 10V7C16 4.79086 14.2091 3 12 3V3C9.79086 3 8 4.79086 8 7V10"
-              stroke="#33363F"
+              stroke="#000000"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
           </svg>
-          <p>Link</p>
+          <p className="text-black-alpha">Link</p>
         </span>
         <button style={postButton} onClick={post} type="submit">
           Post

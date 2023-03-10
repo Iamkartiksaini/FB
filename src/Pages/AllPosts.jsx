@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Posts from "./Post";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import postApi from "../Redux/Api";
 
 const AllPosts = () => {
   const reduxPosts = useSelector((state) => state.posts);
   const disPatcher = useDispatch();
   useEffect(() => {
-    axios.get("http://localhost:4000/post/123").then((res) => {
-      if (res.status === 200) {
-        disPatcher({ type: "update", updatedArray: res.data });
+    const x = async () => {
+      const getPostApi = await postApi().get();
+      if (getPostApi.status === 200) {
+        disPatcher({ type: "update", updatedArray: getPostApi.data });
       }
-    });
+    };
+    x();
   }, []);
 
   return (

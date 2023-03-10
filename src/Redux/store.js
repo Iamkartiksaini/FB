@@ -7,7 +7,7 @@ import thunk from "redux-thunk";
 // post initial
 let postsInit = [
   {
-    text: "Random text for test i love gta V ",
+    text: "Random text for test Before Get APi hit ",
     username: "Kartik Saini",
     tag: "Gurgoan,HR",
     menu: true,
