@@ -5,7 +5,7 @@ import "../Style/SideBar.scss";
 const AsideBar = () => {
   return (
     <aside className="SideBar flex flex-column gap-1 p-2">
-      <ProfileTag />
+      <ProfileTag profilePic="http" />
       <div className="info">
         <span className="flex align-items-center">
           <svg

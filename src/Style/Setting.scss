@@ -1,0 +1,124 @@
+.Setting {
+    display: flex;
+    flex-basis: 100%;
+    min-height: 500px;
+    background-color: aliceblue;
+    border-radius: 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+
+    .form {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 20px;
+        position: relative;
+        flex-direction: row-reverse;
+        flex-basis: 100%;
+
+        .img {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            border: 5px solid silver;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+
+            label {
+                z-index: 3;
+                position: absolute;
+                top: 15%;
+                right: 2%;
+                background-color: var(--blue);
+                color: white;
+                padding: 10px;
+                border-radius: 50%;
+            }
+
+            img {
+                width: 100%;
+                border-radius: 50%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            input[type="file"] {
+                display: none;
+            }
+        }
+
+        .text {
+            display: flex;
+            flex-basis: 50%;
+            // flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+
+            span {
+                flex-basis: 40%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 5px;
+                position: relative;
+
+                input,
+                textarea {
+                    padding: 15px;
+                }
+
+                label {
+                    position: absolute;
+                    top: -8px;
+                    left: 8px;
+                    background: aliceblue;
+                    padding: 0px 5px;
+                }
+
+                button {
+                    width: 50%;
+                }
+            }
+
+            span.gender div {
+                color: white;
+            }
+
+            span.gender div[aria-pressed="true"] {
+                background-color: var(--red-500);
+            }
+
+            span.gender div[aria-pressed="false"] {
+                background-color: var(--pink-400);
+            }
+
+            span.bio {
+                flex-basis: 80%;
+
+                textarea {
+                    max-width: 500px;
+                }
+            }
+
+        }
+
+    }
+
+    .success {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+    }
+
+}

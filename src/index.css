@@ -9,7 +9,9 @@
   --name: 14px;
   --text: 12px;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 .Content-Container {
   font-family: monospace;
   display: flex;
@@ -49,4 +51,28 @@
   background-image: url("./assets/Group 15.jpg");
   background-size: contain;
   background-repeat: no-repeat;
+}
+.NavBar a {
+  text-decoration: none;
+  color: var(--comment);
+}
+
+a.active {
+  color: var(--blue);
+}
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  border-radius: 10px;
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--blue);
+  height: 20px;
+  width: 5px;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--cyan-600);
 }

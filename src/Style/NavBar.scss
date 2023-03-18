@@ -1,0 +1,16 @@
+.NavBar {
+    background-color: white;
+    position: sticky;
+    bottom: 0px;
+    width: 100%;
+
+    span {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+
+        i {
+            font-size: 25px;
+        }
+    }
+}

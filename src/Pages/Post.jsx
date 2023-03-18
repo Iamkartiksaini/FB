@@ -9,15 +9,7 @@ const Posts = ({ postData }) => {
   const dispatch = useDispatch();
 
   const { text, username, tag, menu, media, mediaType, _id } = postData;
-  const styleImage = {
-    // backgroundImage: `url( "${media}")`,
-    backgroundSize: "contain",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    height: "300px",
-    width: "100%",
-    objectFit: "contain",
-  };
+
   let x = false;
   if (media !== "") {
     x = true;
@@ -40,22 +32,24 @@ const Posts = ({ postData }) => {
     <div className="Posts p-2 flex flex-column gap-3">
       <ProfileTag tag={tag} />
       <p>{text}</p>
-      {x == true && mediaType == "image" ? (
-        <img
-          className="Media flex justify-content-center  border-round-xl"
-          style={styleImage}
-          src={media}
-          alt={media}
-        />
-      ) : null}
-      {x == true && mediaType == "video" ? (
-        <video
-          className="Media flex justify-content-center  border-round-xl"
-          style={styleImage}
-          src={media}
-          alt={media}
-          controls
-        />
+      {x == true ? (
+        <div className="mediaRepresent  border-round-xl">
+          {x == true && mediaType == "image" ? (
+            <img
+              className="Media flex justify-content-center "
+              src={media}
+              alt={media}
+            />
+          ) : null}
+          {x == true && mediaType == "video" ? (
+            <video
+              className="Media flex justify-content-center "
+              src={media}
+              alt={media}
+              controls
+            />
+          ) : null}
+        </div>
       ) : null}
       <div className="feed flex align-items-center justify-content-between p-2">
         <span className="reactionHover flex gap-2 align-items-center cursor-pointer ">

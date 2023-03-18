@@ -18,5 +18,24 @@
 
     .suggestions {
         padding: 20px;
+        position: relative;
+
+        .UserList {
+            width: 330px;
+            min-height: 60px;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            overflow-y: scroll;
+            overflow-x: hidden;
+
+            i.pi-spinner {
+                bottom: 25px;
+                font-size: 2em;
+                position: absolute;
+            }
+        }
     }
 }

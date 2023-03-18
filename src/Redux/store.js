@@ -18,11 +18,11 @@ let postsInit = [
   },
 ];
 
-const reducer = (state = { auth: false }, action) => {
+const reducer = (state = { auth: true }, action) => {
   switch (action.type) {
     case "login":
       console.log("login");
-      return { status: true, data: action.data };
+      return { auth: true, data: action.data };
     case "log-out":
       return { auth: false };
     default:

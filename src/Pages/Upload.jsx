@@ -69,25 +69,19 @@ const Upload = () => {
           placeholder="Whats in your mind ?"
         />
       </div>
-      <div className="preview flex justify-content-center bg-black-alpha-10 border-round-xl">
-        {mType == "image" ? (
-          <img
-            style={{ maxHeight: "400px", width: "auto" }}
-            src={img}
-            alt="img"
-          />
-        ) : null}
-
-        {mType == "video" ? (
-          <video
-            className="Media flex justify-content-center "
-            style={{ maxHeight: "400px", width: "auto" }}
-            src={img}
-            alt={img}
-            controls
-          />
-        ) : null}
-      </div>
+      {mType !== "" ? (
+        <div className="preview flex justify-content-center bg-black-alpha-10 border-round-xl">
+          {mType == "image" ? <img src={img} alt={img} /> : null}
+          {mType == "video" ? (
+            <video
+              className="Media flex justify-content-center "
+              src={img}
+              alt={img}
+              controls
+            />
+          ) : null}
+        </div>
+      ) : null}
 
       <div className="media flex gap-2 justify-content-between " id="link">
         <input
@@ -95,6 +89,7 @@ const Upload = () => {
           name="image"
           id="image"
           ref={imgRef}
+          accept="image/*"
           onClick={(e) => (e.target.value = "")}
           onChange={(e) => {
             const file = e.target.files[0];
@@ -115,6 +110,7 @@ const Upload = () => {
           type="file"
           name="video"
           id="video"
+          accept="video/*"
           ref={vidRef}
           onClick={(e) => (e.target.value = "")}
           onChange={(e) => {

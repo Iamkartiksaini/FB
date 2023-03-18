@@ -1,5 +1,19 @@
 .Upload {
 
+    .preview {
+        width: auto;
+        height: 240px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+
+        >* {
+            height: auto;
+            width: 100%;
+        }
+    }
+
     input[type="file"] {
         display: none;
     }
