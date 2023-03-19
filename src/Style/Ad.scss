@@ -21,7 +21,7 @@
         position: relative;
 
         .UserList {
-            width: 330px;
+            min-width: 330px;
             min-height: 60px;
             display: flex;
             gap: 10px;
@@ -30,6 +30,10 @@
             justify-content: flex-end;
             overflow-y: scroll;
             overflow-x: hidden;
+
+            .ProfileTag {
+                width: 100%;
+            }
 
             i.pi-spinner {
                 bottom: 25px;

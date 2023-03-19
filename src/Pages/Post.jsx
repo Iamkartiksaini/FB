@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 const Posts = ({ postData }) => {
   const dispatch = useDispatch();
 
-  const { text, username, tag, menu, media, mediaType, _id } = postData;
+  const { text, username, tag, menu, media, mediaType, _id, dp } = postData;
 
   let x = false;
   if (media !== "") {
@@ -30,7 +30,7 @@ const Posts = ({ postData }) => {
 
   return (
     <div className="Posts p-2 flex flex-column gap-3">
-      <ProfileTag tag={tag} />
+      <ProfileTag tag={tag} profilePic={dp} />
       <p>{text}</p>
       {x == true ? (
         <div className="mediaRepresent  border-round-xl">
@@ -40,15 +40,16 @@ const Posts = ({ postData }) => {
               src={media}
               alt={media}
             />
-          ) : null}
-          {x == true && mediaType == "video" ? (
+          ) : x == true && mediaType == "video" ? (
             <video
               className="Media flex justify-content-center "
               src={media}
               alt={media}
               controls
             />
-          ) : null}
+          ) : (
+            <i className="pi pi-spin"></i>
+          )}
         </div>
       ) : null}
       <div className="feed flex align-items-center justify-content-between p-2">

@@ -38,12 +38,12 @@ const Setting = () => {
         };
         const createUserResponse = await UserApi().createUser(body);
         if (createUserResponse.status == 201) {
-          usernameRef.current.value = "";
-          userIDRef.current.value = "";
-          passwordRef.current.value = "";
-          bioRef.current.value = "";
-          setImg("");
-          updateFile("");
+          // usernameRef.current.value = "";
+          // userIDRef.current.value = "";
+          // passwordRef.current.value = "";
+          // bioRef.current.value = "";
+          // setImg("");
+          // updateFile("");
           createAccountSuccfully(true);
         }
         console.log("createUserResponse", createUserResponse.data);
@@ -52,7 +52,6 @@ const Setting = () => {
       console.log({ error: error.message });
     }
   };
-
   return (
     <div className="Setting">
       {account === false ? <h1>Create Account</h1> : null}

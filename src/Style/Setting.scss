@@ -1,14 +1,17 @@
 .Setting {
     display: flex;
-    flex-basis: 100%;
+    // flex-basis: 100%;
     min-height: 500px;
-    background-color: aliceblue;
     border-radius: 12px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 20px;
     padding: 20px;
+
+    h1 {
+        color: white;
+    }
 
     .form {
         display: flex;

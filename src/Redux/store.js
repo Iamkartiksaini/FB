@@ -29,7 +29,16 @@ const reducer = (state = { auth: true }, action) => {
       return state;
   }
 };
-const posts = (state = postsInit, action) => {
+
+const user = (state = "", action) => {
+  switch (action.type) {
+    case "userLogin":
+      return action.currentUser;
+    default:
+      return state;
+  }
+};
+const posts = (state = "", action) => {
   switch (action.type) {
     case "update":
       return action.updatedArray;
@@ -54,6 +63,7 @@ const rootReducer = combineReducers({
   auth: reducer,
   post_model,
   posts,
+  user,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

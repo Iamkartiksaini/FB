@@ -7,23 +7,23 @@ const Friends = () => {
   useEffect(() => {
     const x = async () => {
       let getApi = await UserApi().get();
-      console.log("getApi", getApi);
       setlist(getApi.data);
     };
     x();
   }, []);
 
   return (
-    <div className="Friends">
+    <div className="Friends flex flex-column gap-3 p-3">
       {list &&
         list.map((value, index) => {
-          console.log(value);
           return (
             <ProfileTag
+              cName="p-3"
               userID={value.userID}
-              dp={value.profilePic}
+              profilePic={value.profilePic}
+              password={value.password}
               key={index}
-              useIn="xyxz"
+              useIn="list"
             />
           );
         })}

@@ -3,7 +3,7 @@ import { InputText } from "primereact/inputtext";
 import "../Style/Upload.scss";
 import postApi from "../Redux/Api.js";
 import UserApi from "../Redux/UserApi";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 const Upload = () => {
@@ -15,11 +15,15 @@ const Upload = () => {
   const vidRef = useRef();
 
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   const body = {
-    username: "kartik",
-    userID: "kartik23",
-    dp: "https://images.pexels.com/photos/15311317/pexels-photo-15311317.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+    username: user != "" ? user.username : "Kartik Saini",
+    userID: user != "" ? user.userID : "Kartik23",
+    dp:
+      user != ""
+        ? `http://localhost:8000/assets/${user.profilePic}`
+        : "https://images.pexels.com/photos/15311317/pexels-photo-15311317.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
     mediaType: mType == "" ? "" : mType,
     text: value,
     tag: " Gurugram,HR",
@@ -59,7 +63,11 @@ const Upload = () => {
       <div className="share-thought flex  gap-3 align-items-center">
         <img
           id="avatar"
-          src="https://images.pexels.com/photos/15311317/pexels-photo-15311317.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+          src={
+            user !== ""
+              ? `http://localhost:8000/assets/${user.profilePic}`
+              : "https://images.pexels.com/photos/15311317/pexels-photo-15311317.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+          }
           alt="profile"
         />
         <InputText

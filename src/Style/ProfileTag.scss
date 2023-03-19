@@ -1,14 +1,17 @@
 .ProfileTag {
     position: relative;
     height: 60px;
-&::before {
-    content: "";
-    position: absolute;
-    background-color: var(--main-bg);
-    width: 95%;
-    height: 1px;
-    bottom: -5px;
-}
+    min-width: 300px;
+    background-color: red;
+
+    &::before {
+        content: "";
+        position: absolute;
+        background-color: var(--main-bg);
+        width: 95%;
+        height: 1px;
+        bottom: -5px;
+    }
 
     .left {
 

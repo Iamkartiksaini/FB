@@ -1,11 +1,15 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import ProfileTag from "../Pages/ProfileTag";
 import "../Style/SideBar.scss";
+import { Button } from "primereact/button";
 
-const AsideBar = () => {
+const SideBar = () => {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   return (
     <aside className="SideBar flex flex-column gap-1 p-2">
-      <ProfileTag profilePic="http" />
+      <ProfileTag profilePic={user.profilePic} userID={user.userID} />
       <div className="info">
         <span className="flex align-items-center">
           <svg
@@ -71,6 +75,9 @@ const AsideBar = () => {
         <div className="flex justify-content-between">
           <p>Total Likes</p> <span>99.9k</span>
         </div>
+        <div className="flex justify-content-between">
+          <p>Friends</p> <span>{user.friends.length}</span>
+        </div>
       </div>
       <div className="Links p-2">
         <h2>Social Profile</h2>
@@ -123,12 +130,20 @@ const AsideBar = () => {
             <div className="text">
               <h3>Mobile Number</h3>
               <p className="mt-1">987765543</p>
-            </div>
+              <br />
+            </div>{" "}
           </span>
         </div>
+        <Button
+          label="Logout"
+          icon="pi pi-upload"
+          // iconPos="right"
+          className="p-button-text p-button-plain"
+          onClick={() => dispatch({ type: "userLogin", currentUser: "" })}
+        />
       </div>
     </aside>
   );
 };
 
-export default AsideBar;
+export default SideBar;

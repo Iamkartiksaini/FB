@@ -1,75 +1,69 @@
 import React, { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom";
+import UserApi from "../Redux/UserApi";
+import Setting from "./Setting";
+
 const Login = () => {
   const [page, setPage] = useState("login");
   const [state, setState] = useState("");
   const [state2, setState2] = useState("");
+
   const dispatch = useDispatch();
-
-  const handleSubmit = function () {
-    dispatch({ type: "login", data: { username: state, userID: state2 } });
+  const handleSubmit = async function () {
+    const authResponse = await UserApi().getSingleUser({
+      userID: state,
+      password: state2,
+    });
+    dispatch({ type: "userLogin", currentUser: authResponse.data });
   };
-
-  // if (page === "login") {
-  //   axios
-  //     .post("http://localhost:4000/auth", {
-  //       userID: state,
-  //       password: state2,
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // } else if (page == "SignUp") {
-  //   axios
-  //     .post("http://localhost:4000/", {
-  //       userID: state,
-  //       password: state2,
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
-  // };
-
   return (
-    <div className="align-items-center flex flex-column gap-3 justify-center justify-content-center text-blue-500">
-      <h1>{page == "login" ? "Login" : "Create Account"} </h1>
-      <span className="p-float-label">
-        <InputText
-          id="in"
-          value={state}
-          onChange={(e) => setState(e.target.value)}
+    <div
+      style={{
+        height: "100vh",
+        // backgroundColor: "aliceblue",
+        backgroundColor: "#8BC6EC",
+        backgroundImage: "linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%)",
+      }}
+      className="align-items-center flex flex-column gap-3 justify-center justify-content-center text-blue-500"
+    >
+      {page == "login" ? <h1>Login</h1> : null}
+      {page == "login" ? (
+        <>
+          {" "}
+          <span className="p-float-label">
+            <InputText
+              id="in"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+            />
+            <label htmlFor="in">Username</label>
+          </span>
+          <span className="p-float-label">
+            <InputText
+              id="password"
+              value={state2}
+              onChange={(e) => setState2(e.target.value)}
+            />
+            <label htmlFor="password">password</label>
+          </span>{" "}
+        </>
+      ) : (
+        <Setting />
+      )}
+      {page == "login" ? (
+        <Button
+          label={page == "login" ? "Login" : "Create Account"}
+          onClick={handleSubmit}
         />
-        <label htmlFor="in">Username</label>
-      </span>
-      <span className="p-float-label">
-        <InputText
-          id="password"
-          value={state2}
-          onChange={(e) => setState2(e.target.value)}
-        />
-        <label htmlFor="password">password</label>
-      </span>
-
+      ) : null}
       <Button
-        className="bg-transparent text-blue-400"
+        className="p-button-text p-button-plain text-indigo-50"
         label={page == "login" ? "Create Account ?" : "Login ?"}
-        onClick={() =>
-          setPage((pre) => {
-            return pre == "login" ? "SignUp" : "login";
-          })
-        }
-      />
-
-      <Button
-        label={page == "login" ? "Login" : "Create Account"}
-        onClick={handleSubmit}
+        onClick={() => {
+          page == "login" ? setPage("Create Account") : setPage("login");
+        }}
       />
     </div>
   );

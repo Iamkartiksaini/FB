@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../Style/Ad.scss";
 import ProfileTag from "../Pages/ProfileTag";
 import UserApi from "../Redux/UserApi";
+import { useSelector } from "react-redux";
 
 const Ad = () => {
   const [allUsers, refreshAllUser] = useState("");
@@ -11,17 +12,24 @@ const Ad = () => {
     link1:
       "https://images.pexels.com/photos/6605302/pexels-photo-6605302.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
   };
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    async function x() {
-      const getUsersRes = await UserApi().get();
-      console.log("getUsersRes", getUsersRes.data);
-      refreshAllUser(getUsersRes.data);
+    try {
+      async function x() {
+        const getUsersRes = await UserApi().getPeopleList({
+          userID: user.userID,
+        });
+        refreshAllUser(getUsersRes.data);
+      }
+      x();
+    } catch (error) {
+      console.log("err", error);
     }
-    x();
   }, []);
+
   async function refreshList() {
-    const getUsersRes = await UserApi().get();
+    const getUsersRes = await UserApi().getPeopleList({ userID: user.userID });
     console.log("getUsersRes", getUsersRes.data);
     refreshAllUser(getUsersRes.data);
   }
@@ -67,8 +75,9 @@ const Ad = () => {
                     key={ind}
                     tag={value.tag}
                     userID={value.userID}
-                    useIn={"server"}
+                    useIn={"list"}
                     profilePic={value.profilePic}
+                    password={value.password}
                   />
                 );
               })

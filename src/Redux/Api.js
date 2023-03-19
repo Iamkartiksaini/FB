@@ -10,7 +10,7 @@ const postApi = () => {
     post(body) {
       return axios.post(link + "post/123", body);
     },
-    post2(body) {
+    singleUserPost(body) {
       return axios.post(link + "post/getOneUserPosts", body);
     },
     delete(id) {
