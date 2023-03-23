@@ -1,6 +1,3 @@
-import React, { useState } from "react";
-import axios from "axios";
-
 function Data() {
   function load(e) {
     let files = e.target.files;
@@ -16,20 +13,22 @@ function Data() {
       // console.log("img", form);
     });
   }
-  function send(e) {}
 
-  //   let file = fileElement.files[0];
-  // let formData = new FormData();
-  // formData.set('file', file);
-  // axios.post("http://localhost:3001/upload-single-file", formData)
-  //   .then(res => {
-  //   console.log(res)
-  // })
+  async function loadImage() {
+    if (mType !== "") {
+      const form = new FormData();
+      form.set("file", upFile);
+      await axios.post("http://localhost:8000/upload", form).then((res) => {
+        fileName = res.data.newField;
+        console.log("Uploading media res ", res.data);
+      });
+    }
+  }
 
   return (
     <div className="DataTable">
       <input type="file" name="" id="" onChange={(e) => load(e)} />
-      <button onClick={send}>Send</button>
+      <button>Send</button>
     </div>
   );
 }

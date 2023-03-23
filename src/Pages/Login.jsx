@@ -4,6 +4,7 @@ import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";
 import UserApi from "../Redux/UserApi";
 import Setting from "./Setting";
+import jwt_decode from "jwt-decode";
 
 const Login = () => {
   const [page, setPage] = useState("login");
@@ -12,23 +13,36 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const handleSubmit = async function () {
-    const authResponse = await UserApi().getSingleUser({
-      userID: state,
-      password: state2,
-    });
-    dispatch({ type: "userLogin", currentUser: authResponse.data });
+    if (state !== "" && state2 !== "") {
+      const authResponse = await UserApi().getSingleUser({
+        userID: state,
+        password: state2,
+      });
+      if (authResponse.status == 200) {
+        const token = authResponse.data.token;
+        var decoded = jwt_decode(token);
+        console.log("token", { ...decoded._doc, token });
+        localStorage.setItem("UserToken", token);
+        dispatch({
+          type: "userLogin",
+          currentUser: { ...decoded._doc, token },
+        });
+      }
+    }
   };
+
   return (
     <div
       style={{
         height: "100vh",
-        // backgroundColor: "aliceblue",
-        backgroundColor: "#8BC6EC",
-        backgroundImage: "linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%)",
+        backgroundColor: "#323232",
+        // backgroundColor: "#8BC6EC",
+        // backgroundImage:
+        //   "repeating-linear-gradient(88deg, #009688 0%, #2196F3 13%)",
       }}
       className="align-items-center flex flex-column gap-3 justify-center justify-content-center text-blue-500"
     >
-      {page == "login" ? <h1>Login</h1> : null}
+      {page == "login" ? <h1 className="text-white">Login</h1> : null}
       {page == "login" ? (
         <>
           {" "}
@@ -36,6 +50,7 @@ const Login = () => {
             <InputText
               id="in"
               value={state}
+              // autoComplete="off"
               onChange={(e) => setState(e.target.value)}
             />
             <label htmlFor="in">Username</label>
@@ -43,6 +58,7 @@ const Login = () => {
           <span className="p-float-label">
             <InputText
               id="password"
+              // autoComplete="off"
               value={state2}
               onChange={(e) => setState2(e.target.value)}
             />

@@ -10,18 +10,17 @@ const AllPosts = ({ type, userID }) => {
   useEffect(() => {
     const x = async () => {
       let getPostApi;
-      if (type == "Public") {
+      if (type == "globle") {
         getPostApi = await postApi().get();
       } else if ((type = "pvt")) {
         getPostApi = await postApi().singleUserPost({ userID });
       }
-      console.log("getPostApi===>", getPostApi);
+      console.log(type, "===>", getPostApi.data);
       if (getPostApi.status === 200) {
         disPatcher({ type: "update", updatedArray: getPostApi.data });
       }
     };
     x();
-    console.log("===>", type, reduxPosts);
   }, []);
 
   return (

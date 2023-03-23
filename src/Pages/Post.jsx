@@ -8,7 +8,14 @@ import { useDispatch } from "react-redux";
 const Posts = ({ postData }) => {
   const dispatch = useDispatch();
 
-  const { text, username, tag, menu, media, mediaType, _id, dp } = postData;
+  const { text, username, tag, menu, media, mediaType, _id, dp, createdAt } =
+    postData;
+  let time;
+  try {
+    time = new Date(createdAt);
+  } catch (error) {
+    console.log({ error: error.message });
+  }
 
   let x = false;
   if (media !== "") {
@@ -52,6 +59,10 @@ const Posts = ({ postData }) => {
           )}
         </div>
       ) : null}
+      <div className="time">
+        <span>{time.toLocaleDateString()} </span>
+        <span>{time.toLocaleTimeString()} </span>
+      </div>
       <div className="feed flex align-items-center justify-content-between p-2">
         <span className="reactionHover flex gap-2 align-items-center cursor-pointer ">
           <i className=" pi pi-thumbs-up" style={{ fontSize: "1em" }}></i>

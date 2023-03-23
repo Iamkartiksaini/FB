@@ -19,6 +19,12 @@
         }
     }
 
+    .time {
+        color: var(--comment);
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
 
     .feed {
         span {

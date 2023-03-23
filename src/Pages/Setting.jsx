@@ -80,17 +80,18 @@ const Setting = () => {
             )}
           </div>
           <div className="text">
-            <span>
-              <label htmlFor="name">Name</label>
+            <span className="p-float-label">
               <InputText name="name" ref={usernameRef} autoComplete="off" />
+              <label htmlFor="name">Name</label>
             </span>
-            <span>
-              <label htmlFor="userid">Userid</label>
+
+            <span className="p-float-label">
               <InputText name="userid" ref={userIDRef} autoComplete="off" />
+              <label htmlFor="userid">Userid</label>
             </span>
-            <span>
-              <label htmlFor="Password">Password</label>
+            <span className="p-float-label">
               <InputText name="Password" ref={passwordRef} autoComplete="off" />
+              <label htmlFor="Password">Password</label>
             </span>
             <span className="gender">
               <ToggleButton
@@ -106,14 +107,10 @@ const Setting = () => {
                 }}
               />
             </span>
-            <span className="bio">
-              <label htmlFor="Bio">Bio</label>
-              <textarea
-                typeof="text"
-                name="Bio"
-                ref={bioRef}
-                autoComplete="off"
-              />
+
+            <span className="p-float-label bio">
+              <InputText name="bio" ref={bioRef} autoComplete="off" />
+              <label htmlFor="bio">bio</label>
             </span>
             <Button
               type="Primary"

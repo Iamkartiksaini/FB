@@ -110,7 +110,7 @@ const SideBar = () => {
             </svg>
             <div className="text">
               <h3>Instagram</h3>
-              <p className="mt-1">http://Instagram/xyz</p>
+              <p className="mt-1">{user.socialLinks[0].address}</p>
             </div>
           </span>
           <span className="flex align-items-center">
@@ -129,7 +129,7 @@ const SideBar = () => {
             </svg>
             <div className="text">
               <h3>Mobile Number</h3>
-              <p className="mt-1">987765543</p>
+              <p className="mt-1">{user.socialLinks[1].address}</p>
               <br />
             </div>{" "}
           </span>
@@ -139,7 +139,10 @@ const SideBar = () => {
           icon="pi pi-upload"
           // iconPos="right"
           className="p-button-text p-button-plain"
-          onClick={() => dispatch({ type: "userLogin", currentUser: "" })}
+          onClick={() => {
+            localStorage.clear();
+            dispatch({ type: "userLogin", currentUser: "" });
+          }}
         />
       </div>
     </aside>

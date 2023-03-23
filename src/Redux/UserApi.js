@@ -8,7 +8,11 @@ const UserApi = () => {
       return axios.get(link + "getAllUser");
     },
     getSingleUser(body) {
-      return axios.post(link + "auth", body);
+      return axios.post(link + "auth", body, {
+        headers: {
+          Authorization: `fb ${"kjshaskjd"}`,
+        },
+      });
     },
     getPeopleList(body) {
       return axios.post(link + "peopleList", body);
