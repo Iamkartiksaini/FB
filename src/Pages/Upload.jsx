@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
-import { InputText } from "primereact/inputtext";
 import "../Style/Upload.scss";
 import postApi from "../Redux/Api.js";
 import UserApi from "../Redux/UserApi";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+
+import { InputTextarea } from "primereact/inputtextarea";
 
 const Upload = () => {
   const [value, setValue] = useState("");
@@ -70,7 +71,9 @@ const Upload = () => {
           }
           alt="profile"
         />
-        <InputText
+        <InputTextarea
+          autoResize
+          rows={1}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           className="p-inputtext-sm p-d-block p-mb-2 border-round-2xl w-full border-0 bg-black-alpha-10"

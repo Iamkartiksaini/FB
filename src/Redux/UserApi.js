@@ -10,7 +10,7 @@ const UserApi = () => {
     getSingleUser(body) {
       return axios.post(link + "auth", body, {
         headers: {
-          Authorization: `fb ${"kjshaskjd"}`,
+          Authorization: `fb ${"Authorization"}`,
         },
       });
     },

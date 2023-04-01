@@ -34,6 +34,8 @@ const user = (state = "", action) => {
   switch (action.type) {
     case "userLogin":
       return action.currentUser;
+    case "logOutRefresh":
+      return "";
     default:
       return state;
   }
@@ -44,6 +46,8 @@ const posts = (state = "", action) => {
       return action.updatedArray;
     case "refresh":
       return [...state, action.obj];
+    case "logOutRefresh":
+      return "";
     default:
       return state;
   }

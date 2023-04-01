@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Home from "./Pages/Home";
 import jwt_decode from "jwt-decode";
+import UserApi from "./Redux/UserApi";
+import { useEffect } from "react";
 
 function App() {
   const getToken = localStorage.getItem("UserToken");
@@ -11,11 +13,16 @@ function App() {
 
   if (authStatus == "" && getToken != null) {
     var decoded = jwt_decode(getToken);
+    console.log("decoded", decoded);
+    async function x() {
+      const y = await UserApi().getSingleUser(decoded._doc);
+    }
     dispatch({
       type: "userLogin",
-      currentUser: { ...decoded._doc },
+      currentUser: decoded._doc,
     });
   }
+
   return (
     <>
       <BrowserRouter>

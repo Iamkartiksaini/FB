@@ -2,6 +2,35 @@
     background-color: white;
     border-radius: 18px;
 
+    .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--main-bg);
+
+        .left {
+            padding-bottom: 0.50rem;
+
+            img {
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .nameId {
+                p {
+                    color: var(--comment);
+                }
+            }
+        }
+
+        i {
+            padding-right: 0.50rem;
+
+            font-size: 20px;
+        }
+    }
 
     .mediaRepresent {
         background-color: var(--main-bg);
@@ -55,4 +84,82 @@
             }
         }
     }
+
+    .comments {
+        .inputs {
+            display: flex;
+            align-items: stretch;
+
+            input {
+                width: fit-content;
+                height: 35px;
+                width: 100%;
+                background-color: var(--main-bg);
+                // border-radius: 8px 0px 0px 8px;
+                border-radius: 0px;
+                border: none;
+
+                &:focus {
+                    box-shadow: none;
+                    background-color: #dae2ef;
+                }
+            }
+
+            button {
+                background-color: var(--blue);
+                border: none;
+                color: white;
+                padding: 5px 20px;
+                // border-radius: 0px 8px 8px 0px;
+            }
+        }
+
+        .list {
+            overflow-y: scroll;
+            max-height: 400px;
+            transition: .3s ease-in-out;
+
+            .closeButton {
+                position: sticky;
+                text-align: center;
+                top: 0px;
+                right: 0px;
+
+                i {
+                    transition: .2s ease-in-out;
+
+                    &:hover {
+                        background: var(--blue);
+                        padding: 5px;
+                        border-radius: 50%;
+
+                        &::before {
+                            color: white;
+                        }
+                    }
+                }
+
+            }
+
+            .item {
+                img {
+                    height: 40px;
+                    width: 40px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    background-color: var(--comment);
+                }
+
+                .commentText {
+                    p {
+                        color: var(--comment);
+                    }
+                }
+
+            }
+        }
+    }
+
+
+
 }

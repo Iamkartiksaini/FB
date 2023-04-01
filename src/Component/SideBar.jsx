@@ -9,7 +9,15 @@ const SideBar = () => {
   const dispatch = useDispatch();
   return (
     <aside className="SideBar flex flex-column gap-1 p-2">
-      <ProfileTag profilePic={user.profilePic} userID={user.userID} />
+      <div className="head">
+        <div className="left flex gap-2 align-items-center">
+          <img src={"http://localhost:8000/assets/" + user.profilePic} alt="" />
+          <div className="nameID">
+            <h3>{user.username}</h3>
+            <p>{user.userID}</p>
+          </div>
+        </div>
+      </div>
       <div className="info">
         <span className="flex align-items-center">
           <svg
@@ -76,7 +84,8 @@ const SideBar = () => {
           <p>Total Likes</p> <span>99.9k</span>
         </div>
         <div className="flex justify-content-between">
-          <p>Friends</p> <span>{user.friends.length}</span>
+          <p>Friends</p>{" "}
+          <span>{user.friends != undefined ? user.friends.length : 0}</span>
         </div>
       </div>
       <div className="Links p-2">
@@ -110,7 +119,11 @@ const SideBar = () => {
             </svg>
             <div className="text">
               <h3>Instagram</h3>
-              <p className="mt-1">{user.socialLinks[0].address}</p>
+              <p className="mt-1">
+                {user.socialLinks != undefined
+                  ? user.socialLinks[0].address
+                  : null}
+              </p>
             </div>
           </span>
           <span className="flex align-items-center">
@@ -129,7 +142,11 @@ const SideBar = () => {
             </svg>
             <div className="text">
               <h3>Mobile Number</h3>
-              <p className="mt-1">{user.socialLinks[1].address}</p>
+              <p className="mt-1">
+                {user.socialLinks != undefined
+                  ? user.socialLinks[1].address
+                  : null}
+              </p>
               <br />
             </div>{" "}
           </span>
@@ -142,6 +159,7 @@ const SideBar = () => {
           onClick={() => {
             localStorage.clear();
             dispatch({ type: "userLogin", currentUser: "" });
+            dispatch({ type: "logOutRefresh" });
           }}
         />
       </div>

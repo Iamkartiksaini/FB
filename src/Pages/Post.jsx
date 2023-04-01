@@ -1,30 +1,85 @@
-import React from "react";
-import ProfileTag from "./ProfileTag";
+import { useRef, useState } from "react";
 import "../Style/Posts.scss";
 import postApi from "../Redux/Api";
 import UserApi from "../Redux/UserApi";
 import { useDispatch } from "react-redux";
+import { InputText } from "primereact/inputtext";
+import axios from "axios";
 
-const Posts = ({ postData }) => {
+const Posts = ({ postData, activeUser }) => {
   const dispatch = useDispatch();
+  const textRef = useRef();
+  const [comments, updateComment] = useState(postData);
+  const {
+    text,
+    username,
+    userID,
+    tag,
+    menu,
+    media,
+    mediaType,
+    _id,
+    dp,
+    reactions,
+    createdAt,
+    comment,
+  } = comments;
+  const [count, setCount] = useState(activeUser.liked);
+  const [openComments, setCommentModal] = useState(false);
 
-  const { text, username, tag, menu, media, mediaType, _id, dp, createdAt } =
-    postData;
-  let time;
-  try {
-    time = new Date(createdAt);
-  } catch (error) {
-    console.log({ error: error.message });
-  }
+  let time = new Date(createdAt);
 
   let x = false;
   if (media !== "") {
     x = true;
   }
 
+  async function sendFeedtoUser(type) {
+    const body = {
+      type,
+      postId: _id,
+      userID: activeUser.userID,
+    };
+    function x(body) {
+      return axios.put("http://localhost:4000/CURD_Post/reaction", body);
+    }
+    const commentAdd = await x(body);
+    setCount(commentAdd.data.liked);
+  }
+
+  async function sendFeedtoPost(type) {
+    let body = {
+      type,
+      postId: _id,
+      activeUserId: activeUser.userID,
+      activeUsername: activeUser.username,
+    };
+    if (type == "comment") {
+      body = {
+        ...body,
+        activeUsername: activeUser.username,
+        activeUserProfilePic: activeUser.profilePic,
+        msg: textRef.current.value,
+        time: Date.now(),
+      };
+    }
+    function x(body) {
+      return axios.put("http://localhost:4000/post/put", body);
+    }
+    const commentAdd = await x(body);
+    if (commentAdd.status == 201) {
+      const z = await axios.post("http://localhost:4000/post/getSinglePost", {
+        postId: _id,
+      });
+      updateComment(z.data);
+    }
+    if (type == "comment") {
+      textRef.current.value = "";
+    }
+  }
+
   // Delete Post function ===>
   const deletePost = async () => {
-    console.log("id", _id);
     const delBody = { userID: "Kartik23", postID: _id, type: "delete" };
     const res = await postApi().delete(_id);
     const delInUser = await UserApi().addPost(delBody);
@@ -37,7 +92,16 @@ const Posts = ({ postData }) => {
 
   return (
     <div className="Posts p-2 flex flex-column gap-3">
-      <ProfileTag tag={tag} profilePic={dp} />
+      <div className="head">
+        <div className="left flex gap-2 align-items-center">
+          <img src={dp} alt="" />
+          <div className="nameID">
+            <h3>{username}</h3>
+            <p>{userID}</p>
+          </div>
+        </div>
+        <i className="pi pi-user-plus"></i>
+      </div>
       <p>{text}</p>
       {x == true ? (
         <div className="mediaRepresent  border-round-xl">
@@ -63,12 +127,26 @@ const Posts = ({ postData }) => {
         <span>{time.toLocaleDateString()} </span>
         <span>{time.toLocaleTimeString()} </span>
       </div>
-      <div className="feed flex align-items-center justify-content-between p-2">
-        <span className="reactionHover flex gap-2 align-items-center cursor-pointer ">
+      <div className="feed flex align-items-center justify-content-between pt-2">
+        <span
+          onClick={() => {
+            const y =
+              count.length > 0 && count.includes(_id) ? "unliked" : "liked";
+            sendFeedtoPost(y);
+            sendFeedtoUser(y);
+          }}
+          style={{
+            color: count.includes(_id) ? "var(--blue)" : "",
+          }}
+          className="reactionHover flex gap-2 align-items-center cursor-pointer "
+        >
           <i className=" pi pi-thumbs-up" style={{ fontSize: "1em" }}></i>
           <p>Reaction</p>
         </span>
-        <span className="commentHover flex gap-2 align-items-center cursor-pointer">
+        <span
+          onClick={() => setCommentModal(!openComments)}
+          className="commentHover flex gap-2 align-items-center cursor-pointer"
+        >
           <i className=" pi pi-comment" style={{ fontSize: "1em" }}></i>
           <p>Comment</p>
         </span>
@@ -81,6 +159,48 @@ const Posts = ({ postData }) => {
           <p>Delete</p>
         </span>
       </div>
+      <p style={{ color: "var(--comment)", textAlign: "center" }}>
+        reactions : {reactions.length} comment : {comment.length}
+      </p>
+      {openComments == true ? (
+        <div className="comments">
+          <div className="inputs pb-3">
+            <InputText ref={textRef} />
+            <button
+              onClick={() => {
+                sendFeedtoPost("comment");
+                sendFeedtoUser("comment");
+              }}
+            >
+              send
+            </button>
+          </div>
+          <div className="list flex flex-column gap-3  relative">
+            <span
+              className="closeButton"
+              onClick={() => setCommentModal(!openComments)}
+            >
+              <i className="pi pi-times" style={{ color: "var(--blue)" }}></i>
+            </span>
+            {comment.length > 0
+              ? comment.map((val, ind) => {
+                  return (
+                    <div key={ind} className="item flex gap-2">
+                      <img
+                        src={"http://localhost:8000/assets/" + val.profilePic}
+                        alt=""
+                      />
+                      <div className="commentText pt-1">
+                        <h3>{val.username}</h3>
+                        <p className="pt-1">{val.text}</p>
+                      </div>
+                    </div>
+                  );
+                })
+              : null}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
