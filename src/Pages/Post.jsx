@@ -14,8 +14,6 @@ const Posts = ({ postData, activeUser }) => {
     text,
     username,
     userID,
-    tag,
-    menu,
     media,
     mediaType,
     _id,
@@ -182,22 +180,20 @@ const Posts = ({ postData, activeUser }) => {
             >
               <i className="pi pi-times" style={{ color: "var(--blue)" }}></i>
             </span>
-            {comment.length > 0
-              ? comment.map((val, ind) => {
-                  return (
-                    <div key={ind} className="item flex gap-2">
-                      <img
-                        src={"http://localhost:8000/assets/" + val.profilePic}
-                        alt=""
-                      />
-                      <div className="commentText pt-1">
-                        <h3>{val.username}</h3>
-                        <p className="pt-1">{val.text}</p>
-                      </div>
-                    </div>
-                  );
-                })
-              : null}
+            {comment.map((val, ind) => {
+              return (
+                <div key={ind} className="item flex gap-2">
+                  <img
+                    src={"http://localhost:8000/assets/" + val.profilePic}
+                    alt=""
+                  />
+                  <div className="commentText pt-1">
+                    <h3>{val.username}</h3>
+                    <p className="pt-1">{val.text}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       ) : null}

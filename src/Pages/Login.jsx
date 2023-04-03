@@ -23,6 +23,7 @@ const Login = () => {
         var decoded = jwt_decode(token);
         console.log("token", { ...decoded._doc, token });
         localStorage.setItem("UserToken", token);
+        localStorage.setItem("FB-user", JSON.stringify(decoded._doc));
         dispatch({
           type: "userLogin",
           currentUser: { ...decoded._doc, token },

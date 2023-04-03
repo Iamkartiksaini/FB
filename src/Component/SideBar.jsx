@@ -1,6 +1,4 @@
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import ProfileTag from "../Pages/ProfileTag";
 import "../Style/SideBar.scss";
 import { Button } from "primereact/button";
 
@@ -84,8 +82,7 @@ const SideBar = () => {
           <p>Total Likes</p> <span>99.9k</span>
         </div>
         <div className="flex justify-content-between">
-          <p>Friends</p>{" "}
-          <span>{user.friends != undefined ? user.friends.length : 0}</span>
+          <p>Friends</p> <span>{user.friends.length}</span>
         </div>
       </div>
       <div className="Links p-2">

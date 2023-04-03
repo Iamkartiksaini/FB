@@ -1,27 +1,23 @@
 import Login from "./Pages/Login";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Home from "./Pages/Home";
-import jwt_decode from "jwt-decode";
-import UserApi from "./Redux/UserApi";
 import { useEffect } from "react";
 
 function App() {
-  const getToken = localStorage.getItem("UserToken");
-  const authStatus = useSelector((state) => state.user);
+  let authStatus = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  if (authStatus == "" && getToken != null) {
-    var decoded = jwt_decode(getToken);
-    console.log("decoded", decoded);
-    async function x() {
-      const y = await UserApi().getSingleUser(decoded._doc);
+  useEffect(() => {
+    if (localStorage.getItem("FB-user") !== null && authStatus == "") {
+      authStatus = JSON.parse(localStorage.getItem("FB-user"));
+      console.log(authStatus);
     }
     dispatch({
       type: "userLogin",
-      currentUser: decoded._doc,
+      currentUser: authStatus,
     });
-  }
+  }, []);
 
   return (
     <>

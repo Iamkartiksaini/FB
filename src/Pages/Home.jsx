@@ -1,8 +1,5 @@
 import React, { Suspense, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import jwt_decode from "jwt-decode";
-import UserApi from "../Redux/UserApi";
 
 const Header = React.lazy(() => import("../Component/Header"));
 const Upload = React.lazy(() => import("./Upload"));
@@ -16,30 +13,6 @@ const Notification = React.lazy(() => import("../Component/Notification"));
 const SideBar = React.lazy(() => import("../Component/SideBar"));
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const getToken = localStorage.getItem("UserToken");
-
-  useEffect(() => {
-    handleSubmit();
-    console.log("refresh");
-  }, []);
-
-  const handleSubmit = async function () {
-    var decoded = jwt_decode(getToken);
-    const authResponse = await UserApi().getSingleUser({
-      userID: decoded._doc.userID,
-      password: decoded._doc.password,
-    });
-    if (authResponse.status == 200) {
-      const token = authResponse.data.token;
-      localStorage.setItem("UserToken", token);
-      dispatch({
-        type: "userLogin",
-        currentUser: { ...decoded._doc, token },
-      });
-    }
-  };
-
   return (
     <Suspense
       fallback={
