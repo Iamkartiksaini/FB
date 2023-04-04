@@ -4,7 +4,7 @@ import postApi from "../Redux/Api";
 import UserApi from "../Redux/UserApi";
 import { useDispatch } from "react-redux";
 import { InputText } from "primereact/inputtext";
-import axios from "axios";
+import { instance, getFileLink } from "../Redux/axiosConfig";
 
 const Posts = ({ postData, activeUser }) => {
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const Posts = ({ postData, activeUser }) => {
       userID: activeUser.userID,
     };
     function x(body) {
-      return axios.put("http://localhost:4000/CURD_Post/reaction", body);
+      return instance.put("CURD_Post/reaction", body);
     }
     const commentAdd = await x(body);
     setCount(commentAdd.data.liked);
@@ -62,11 +62,11 @@ const Posts = ({ postData, activeUser }) => {
       };
     }
     function x(body) {
-      return axios.put("http://localhost:4000/post/put", body);
+      return instance.put("post/put", body);
     }
     const commentAdd = await x(body);
     if (commentAdd.status == 201) {
-      const z = await axios.post("http://localhost:4000/post/getSinglePost", {
+      const z = await instance.post("/post/getSinglePost", {
         postId: _id,
       });
       updateComment(z.data);
@@ -92,7 +92,7 @@ const Posts = ({ postData, activeUser }) => {
     <div className="Posts p-2 flex flex-column gap-3">
       <div className="head">
         <div className="left flex gap-2 align-items-center">
-          <img src={dp} alt="" />
+          <img src={getFileLink + dp} alt="" />
           <div className="nameID">
             <h3>{username}</h3>
             <p>{userID}</p>
@@ -106,14 +106,17 @@ const Posts = ({ postData, activeUser }) => {
           {x == true && mediaType == "image" ? (
             <img
               className="Media flex justify-content-center "
-              src={media}
-              alt={media}
+              src={getFileLink + media}
+              alt={getFileLink + media}
+              onClick={(e) => {
+                navigator.clipboard.writeText(getFileLink + media);
+              }}
             />
           ) : x == true && mediaType == "video" ? (
             <video
               className="Media flex justify-content-center "
-              src={media}
-              alt={media}
+              src={getFileLink + media}
+              alt={getFileLink + media}
               controls
             />
           ) : (

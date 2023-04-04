@@ -1,30 +1,28 @@
-import axios from "axios";
-
-const link = "http://localhost:4000/";
+import { instance } from "./axiosConfig";
 
 const UserApi = () => {
   return {
     get() {
-      return axios.get(link + "getAllUser");
+      return instance.get("getAllUser");
     },
     getSingleUser(body) {
-      return axios.post(link + "auth", body, {
+      return instance.post("auth", body, {
         headers: {
           Authorization: `fb ${"Authorization"}`,
         },
       });
     },
     getPeopleList(body) {
-      return axios.post(link + "peopleList", body);
+      return instance.post("peopleList", body);
     },
     addFriend(body) {
-      return axios.post(link + "addFriend", body);
+      return instance.post("addFriend", body);
     },
     createUser(body) {
-      return axios.post(link + "Create_Account", body);
+      return instance.post("Create_Account", body);
     },
     addPost(body) {
-      return axios.put(link + "CURD_Post", body);
+      return instance.put("CURD_Post", body);
     },
   };
 };

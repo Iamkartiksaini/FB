@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 const Header = React.lazy(() => import("../Component/Header"));
@@ -41,7 +41,7 @@ const Home = () => {
                 path="/feed"
                 element={
                   <>
-                    <Ad />
+                    {/* <Ad /> */}
                     <Upload />
                     <div className="allPosts">
                       <AllPosts type="globle" />
