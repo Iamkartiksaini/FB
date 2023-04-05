@@ -28,6 +28,9 @@ const Login = () => {
           type: "userLogin",
           currentUser: { ...decoded._doc, token },
         });
+        dispatch({
+          type: "auth",
+        });
       }
     }
   };

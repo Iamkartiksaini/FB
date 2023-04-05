@@ -11,10 +11,8 @@ const App = React.lazy(() => import("./App"));
 const Setting = React.lazy(() => import("./By_Kartik/Setting"));
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-      {/* <Setting /> */}
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <App />
+    {/* <Setting /> */}
+  </Provider>
 );

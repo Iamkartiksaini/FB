@@ -5,6 +5,9 @@ const UserApi = () => {
     get() {
       return instance.get("getAllUser");
     },
+    getFriendsModel(body) {
+      return instance.post("getFriendsModel", body);
+    },
     getSingleUser(body) {
       return instance.post("auth", body, {
         headers: {

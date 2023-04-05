@@ -1,15 +1,47 @@
 import { useSelector, useDispatch } from "react-redux";
 import "../Style/SideBar.scss";
 import { Button } from "primereact/button";
+import { getFileLink } from "../Redux/axiosConfig";
+import icon from "../assets/react.svg";
 
 const SideBar = () => {
   const user = useSelector((state) => state.user);
+  const ws = useSelector((state) => state.ws);
   const dispatch = useDispatch();
+
+  ws.addEventListener("message", ({ data }) => {
+    const parseData = JSON.parse(data);
+    if (parseData.sender !== user.userID) {
+      notify();
+      console.log("notification");
+    }
+  });
+
+  function notify() {
+    // Check if the browser supports notifications
+    if ("Notification" in window) {
+      // Request permission for notifications
+      window.Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+          var notification = new Notification("New message", {
+            body: `${user.username} have a new message!`,
+            icon: icon,
+            badge: icon,
+            vibrate: [200, 100, 200],
+            data: "hello",
+          });
+
+          setTimeout(notification.close.bind(notification), 15000);
+        }
+      });
+    }
+  }
+
   return (
     <aside className="SideBar flex flex-column gap-1 p-2">
       <div className="head">
         <div className="left flex gap-2 align-items-center">
-          <img src={"http://localhost:8000/assets/" + user.profilePic} alt="" />
+          <img src={getFileLink + user.profilePic} alt="" />
           <div className="nameID">
             <h3>{user.username}</h3>
             <p>{user.userID}</p>

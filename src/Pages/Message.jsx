@@ -1,139 +1,87 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Button } from "primereact/button";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { InputText } from "primereact/inputtext";
-import axios from "axios";
 import MsgModel from "../Component/MsgModel";
-import icon from "../assets/react.svg";
+import UserApi from "../Redux/UserApi";
+import { getFileLink } from "../Redux/axiosConfig";
+import "../Style/Message.scss";
+import { Button } from "primereact/button";
 
 function Message() {
   const user = useSelector((state) => state.user);
-  const [ws, setWs] = useState(new WebSocket("ws://localhost:4000"));
-  const [msg, setmsg] = useState("");
+  const ws = useSelector((state) => state.ws);
+  const getFriendID = user.friends.map((val) => {
+    return { _id: val._id };
+  });
+  const chatRoomID = user.friends.map((val) => {
+    return { roomID: val.roomID };
+  });
+  const [friendList, setFriendList] = useState([]);
   const [roomKey, setKey] = useState("");
   const [refresh, setRefresh] = useState(0);
 
-  ws.addEventListener("open", () => {
-    console.log("Connection opened!");
-  });
-  ws.addEventListener("close", () => {});
-
   useEffect(() => {
-    if (roomKey !== "") {
-      {
-        fetchData();
-      }
-    }
-  }, [roomKey]);
-
-  const textRef = useRef();
-  ws.onmessage = ({ data }) => showMessage(data);
+    console.log("refresh");
+    fetchData();
+  }, [refresh]);
 
   async function fetchData() {
-    const roomData = await axios.post("http://localhost:4000/chatRoom/id", {
-      _id: roomKey,
-    });
-    setmsg(roomData.data);
-  }
-
-  function sendBtn() {
-    if (!ws && value !== "") {
-      showMessage("No WebSocket connection :(");
-      return;
-    }
-    if (textRef.current.value != "") {
-      ws.send(
-        JSON.stringify({
-          username: user.username,
-          userID: user.userID,
-          text: textRef.current.value,
-          _id: roomKey,
-        })
-      );
-      textRef.current.value = "";
-    }
-  }
-
-  function showMessage(data) {
-    let x = JSON.parse(data);
-    if (typeof x == "object") {
-      setmsg(x);
-      notify();
+    const roomData = await UserApi().getFriendsModel(getFriendID);
+    if (roomData.status == 200 && roomData.data != null) {
+      setFriendList(roomData.data);
     }
   }
 
   return (
-    <div>
+    <div className="MessageList">
       <h1>Real Time Messaging</h1>
       <br />
-      <p
+      <Button
+        title="Refresh"
+        icon="pi pi-spinner"
+        rounded
+        text
+        severity="info"
+        aria-label="User"
+        label="Refresh"
+        iconPos="right"
         onClick={() => {
           setRefresh(refresh + 1);
-          notify();
         }}
-      >
-        Refresh <i className="pi pi-spinner"></i>
-      </p>
+      />
       <br />
-      <InputText
-        ref={textRef}
-        id="messageBox"
-        placeholder="Type your message here"
-      />
-
-      <Button
-        id="send"
-        title="Send Message!"
-        onClick={() => {
-          sendBtn();
-        }}
-        label="send"
-      />
       <div className="friendsList">
-        {user.friends.map((val, ind) => {
+        {friendList.map((val, ind) => {
           return (
             <div
+              className=" friendItem flex align-items-center gap-2 mt-2 mb-2"
               key={ind}
-              onClick={() => setKey(val.roomID)}
-              style={
-                val.roomID == roomKey
-                  ? { backgroundColor: "teal" }
-                  : { backgroundColor: "transparent" }
-              }
+              onClick={() => setKey({ ...val, roomID: chatRoomID[ind].roomID })}
             >
-              <h3>{val.username}</h3>
-              <p>{val.userID}</p>
+              <img
+                src={getFileLink + val.profilePic}
+                alt={getFileLink + val.profilePic}
+                style={{
+                  height: "50px",
+                  width: "50px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+              <div className="flex flex-column  justify-content-center">
+                <h3>{val.username}</h3>
+                <p>@{val.userID}</p>
+              </div>
             </div>
           );
         })}
       </div>
-      <div className="msg">
-        <MsgModel data={msg} />
-      </div>
+      {roomKey !== "" ? (
+        <div className="msg">
+          <MsgModel data={{ ws, friend: roomKey, setKey }} />
+        </div>
+      ) : null}
     </div>
   );
-}
-
-function notify() {
-  // Check if the browser supports notifications
-  if ("Notification" in window) {
-    // Request permission for notifications
-    Notification.requestPermission().then(function (permission) {
-      if (permission === "granted") {
-        // Create a notification
-        var notification = new Notification("New message", {
-          body: "You have a new message!",
-          icon: icon,
-          badge: icon,
-          vibrate: [200, 100, 200],
-          data: "hello",
-        });
-
-        // Close the notification after a few seconds
-        setTimeout(notification.close.bind(notification), 5000);
-      }
-    });
-  }
 }
 
 export default Message;

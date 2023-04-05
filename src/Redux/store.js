@@ -17,14 +17,12 @@ let postsInit = [
     reactions: [{ username: "preet", userID: "xyz", reactionID: "2134" }],
   },
 ];
-
-const reducer = (state = { auth: true }, action) => {
+const auth = (state = "", action) => {
   switch (action.type) {
-    case "login":
-      console.log("login");
-      return { auth: true, data: action.data };
-    case "log-out":
-      return { auth: false };
+    case "auth":
+      return "auth";
+    case "logOutRefresh":
+      return "";
     default:
       return state;
   }
@@ -58,16 +56,29 @@ const post_model = (state = false, action) => {
     case "open":
       console.log("login", state);
       return !state;
+    case "logOutRefresh":
+      return "";
+    default:
+      return state;
+  }
+};
+const ws = (state = "", action) => {
+  switch (action.type) {
+    case "ws":
+      return action.ws;
+    case "logOutRefresh":
+      return "";
     default:
       return state;
   }
 };
 
 const rootReducer = combineReducers({
-  auth: reducer,
   post_model,
   posts,
   user,
+  auth,
+  ws,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

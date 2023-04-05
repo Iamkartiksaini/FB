@@ -1,4 +1,5 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 const Header = React.lazy(() => import("../Component/Header"));
@@ -13,6 +14,21 @@ const Notification = React.lazy(() => import("../Component/Notification"));
 const SideBar = React.lazy(() => import("../Component/SideBar"));
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:4000");
+    dispatch({ type: "ws", ws });
+    ws.addEventListener("open", () => {
+      console.log("Connection opened!");
+      ws.send(JSON.stringify({ userObjId: user._id, type: "setup" }));
+    });
+  }, []);
+
+  // ws.addEventListener("close", () => {
+  //   console.log("connection break");
+  // });
+
   return (
     <Suspense
       fallback={
@@ -31,7 +47,7 @@ const Home = () => {
       <div className=" Main-Container relative ">
         {/* <DataTable /> */}
         <Routes>
-          <Route path="feed" element={<Header />}></Route>
+          <Route path="*" element={<Header />}></Route>
         </Routes>
         <div className="Content-Container flex-wrap ">
           <SideBar />
@@ -41,7 +57,7 @@ const Home = () => {
                 path="/feed"
                 element={
                   <>
-                    {/* <Ad /> */}
+                    <Ad />
                     <Upload />
                     <div className="allPosts">
                       <AllPosts type="globle" />
