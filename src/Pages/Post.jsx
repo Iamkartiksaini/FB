@@ -1,13 +1,16 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import "../Style/Posts.scss";
-import postApi from "../Redux/Api";
+import postApi from "../Redux/PostApi.js";
 import UserApi from "../Redux/UserApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { InputText } from "primereact/inputtext";
-import { instance, getFileLink } from "../Redux/axiosConfig";
+import { getFileLink } from "../Redux/axiosConfig";
 
-const Posts = ({ postData, activeUser }) => {
+const Posts = ({ postData }) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const ws = useSelector((state) => state.ws);
+
   const textRef = useRef();
   const [comments, updateComment] = useState(postData);
   const {
@@ -21,8 +24,9 @@ const Posts = ({ postData, activeUser }) => {
     reactions,
     createdAt,
     comment,
+    userObjId,
   } = comments;
-  const [count, setCount] = useState(activeUser.liked);
+
   const [openComments, setCommentModal] = useState(false);
 
   let time = new Date(createdAt);
@@ -32,51 +36,59 @@ const Posts = ({ postData, activeUser }) => {
     x = true;
   }
 
-  async function sendFeedtoUser(type) {
-    const body = {
-      type,
-      postId: _id,
-      userID: activeUser.userID,
-    };
-    function x(body) {
-      return instance.put("CURD_Post/reaction", body);
-    }
-    const commentAdd = await x(body);
-    setCount(commentAdd.data.liked);
-  }
-
   async function sendFeedtoPost(type) {
     let body = {
       type,
+      userObjId: user._id,
       postId: _id,
-      activeUserId: activeUser.userID,
-      activeUsername: activeUser.username,
+      userID: user.userID,
+      username: user.username,
+      profilePic: user.profilePic,
+      time: Date.now(),
     };
-    if (type == "comment") {
-      body = {
-        ...body,
-        activeUsername: activeUser.username,
-        activeUserProfilePic: activeUser.profilePic,
-        msg: textRef.current.value,
-        time: Date.now(),
-      };
-    }
-    function x(body) {
-      return instance.put("post/put", body);
-    }
-    const commentAdd = await x(body);
-    if (commentAdd.status == 201) {
-      const z = await instance.post("/post/getSinglePost", {
-        postId: _id,
+    type == "comment" ? (body.msg = textRef.current.value) : "";
+    const likeCoOperation = await UserApi().likedCommentOperation(body);
+    const commentAdd = await postApi().putInPost(body);
+    if (commentAdd.status == 201 && likeCoOperation.status == 201) {
+      updateComment((pre) => {
+        return { ...pre, ...commentAdd.data };
       });
-      updateComment(z.data);
+      dispatch({
+        type: "userLogin",
+        currentUser: { ...user, ...likeCoOperation.data },
+      });
+      notify(type);
     }
-    if (type == "comment") {
-      textRef.current.value = "";
+    type == "comment" ? (textRef.current.value = "") : null;
+  }
+
+  function notify(notificationType) {
+    if (notificationType != "unliked") {
+      let x;
+      notificationType == "liked" ? (x = "post_liked") : null;
+      notificationType == "comment" ? (x = "post_comment") : null;
+      console.log("x notify type", x);
+      ws.send(
+        JSON.stringify({
+          type: "notification",
+          data: {
+            type: x,
+            sender: {
+              username: user.username,
+              userID: user.userID,
+              _id: user._id,
+            },
+            other: {
+              postID: _id,
+              userID,
+              postOwnerId: userObjId,
+            },
+          },
+        })
+      );
     }
   }
 
-  // Delete Post function ===>
   const deletePost = async () => {
     const delBody = { userID: "Kartik23", postID: _id, type: "delete" };
     const res = await postApi().delete(_id);
@@ -98,7 +110,7 @@ const Posts = ({ postData, activeUser }) => {
             <p>{userID}</p>
           </div>
         </div>
-        <i className="pi pi-user-plus"></i>
+        {/* <i className="pi pi-user-plus"></i> */}
       </div>
       <p>{text}</p>
       {x == true ? (
@@ -129,26 +141,32 @@ const Posts = ({ postData, activeUser }) => {
         <span>{time.toLocaleTimeString()} </span>
       </div>
       <div className="feed flex align-items-center justify-content-between pt-2">
+        {/* Reactions */}
         <span
           onClick={() => {
-            const y =
-              count.length > 0 && count.includes(_id) ? "unliked" : "liked";
-            sendFeedtoPost(y);
-            sendFeedtoUser(y);
+            const type =
+              user.liked.length > 0 && user.liked.includes(_id)
+                ? "unliked"
+                : "liked";
+            sendFeedtoPost(type);
           }}
           style={{
-            color: count.includes(_id) ? "var(--blue)" : "",
+            color: user.liked.includes(_id) ? "var(--blue)" : "",
           }}
           className="reactionHover flex gap-2 align-items-center cursor-pointer "
         >
-          <i className=" pi pi-thumbs-up" style={{ fontSize: "1em" }}></i>
+          <i
+            className={`pi ${
+              user.liked.includes(_id) ? "pi-thumbs-up-fill" : "pi-thumbs-up"
+            }`}
+          ></i>
           <p>Reaction</p>
         </span>
         <span
           onClick={() => setCommentModal(!openComments)}
           className="commentHover flex gap-2 align-items-center cursor-pointer"
         >
-          <i className=" pi pi-comment" style={{ fontSize: "1em" }}></i>
+          <i className=" pi pi-comment"></i>
           <p>Comment</p>
         </span>
         <span
@@ -156,7 +174,7 @@ const Posts = ({ postData, activeUser }) => {
           onClick={deletePost}
         >
           {/* <i className=" pi pi-share-alt" style={{ fontSize: "1em" }}></i> */}
-          <i className=" pi pi-trash" style={{ fontSize: "1em" }}></i>
+          <i className=" pi pi-trash"></i>
           <p>Delete</p>
         </span>
       </div>
@@ -166,11 +184,11 @@ const Posts = ({ postData, activeUser }) => {
       {openComments == true ? (
         <div className="comments">
           <div className="inputs pb-3">
+            {/* Comment On Post */}
             <InputText ref={textRef} />
             <button
               onClick={() => {
                 sendFeedtoPost("comment");
-                sendFeedtoUser("comment");
               }}
             >
               send
@@ -187,8 +205,8 @@ const Posts = ({ postData, activeUser }) => {
               return (
                 <div key={ind} className="item flex gap-2">
                   <img
-                    src={"http://localhost:8000/assets/" + val.profilePic}
-                    alt=""
+                    src={getFileLink + val.profilePic}
+                    alt={getFileLink + val.profilePic}
                   />
                   <div className="commentText pt-1">
                     <h3>{val.username}</h3>

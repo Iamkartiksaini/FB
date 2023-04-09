@@ -27,6 +27,9 @@ const UserApi = () => {
     addPost(body) {
       return instance.put("CURD_Post", body);
     },
+    likedCommentOperation(body) {
+      return instance.put("CURD_Post/reaction", body);
+    },
   };
 };
 

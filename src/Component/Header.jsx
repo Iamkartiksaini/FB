@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { InputText } from "primereact/inputtext";
+import Notification from "./Notification";
+import "../Style/Upload.scss";
 import { NavLink } from "react-router-dom";
 
 const Header = () => {
@@ -9,19 +11,27 @@ const Header = () => {
         className="pi pi-facebook text-5xl"
         style={{ color: "var(--blue)" }}
       ></i>
-      <span className="p-input-icon-left">
+      <span className="p-input-icon-right">
         <i className="pi pi-search" />
-        <InputText value={""} placeholder="Search" style={{ height: "20px" }} />
+        <InputText placeholder="Search" />
       </span>
-      <div className="icons flex gap-5">
-        <i className="pi pi-bell" style={{ fontSize: "20px" }}></i>
-        <NavLink
-          to={"/home/friends"}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <i className="pi pi-user-plus" style={{ fontSize: "20px" }}></i>
+      {/* Icons */}
+      <div className="icons flex gap-5 align-items-center">
+        <div className="card flex justify-content-center">
+          <i className="pi pi-bell"></i>
+          <div className="modal relative">
+            <Notification />
+          </div>
+        </div>
+        <NavLink to={"/home/message"}>
+          <i className="pi pi-comments"></i>
         </NavLink>
-        <i className="pi pi-info-circle" style={{ fontSize: "20px" }}></i>
+        <NavLink to={"feed"}>
+          <i className="pi pi-cog"></i>
+        </NavLink>
+        <NavLink to={"profile"}>
+          <i className="pi pi-user"></i>
+        </NavLink>
       </div>
     </header>
   );

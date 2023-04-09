@@ -1,15 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useDispatch } from "react-redux";
 import UserApi from "../Redux/UserApi";
 import Setting from "./Setting";
 import jwt_decode from "jwt-decode";
+import { getFileLink } from "../Redux/axiosConfig";
 
 const Login = () => {
   const [page, setPage] = useState("login");
   const [state, setState] = useState("");
   const [state2, setState2] = useState("");
+  const [usersList, setUserList] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    const getAllUsers = await UserApi().get();
+    if (getAllUsers.status == 200) {
+      setUserList(getAllUsers.data);
+    }
+  }
 
   const dispatch = useDispatch();
   const handleSubmit = async function () {
@@ -85,6 +98,37 @@ const Login = () => {
           page == "login" ? setPage("Create Account") : setPage("login");
         }}
       />
+
+      <div className="lists flex gap-3">
+        {usersList.map((value, index) => {
+          return (
+            <div
+              key={index}
+              className="head flex align-items-center gap-3 text-white"
+              onClick={() => {
+                setState(value.userID);
+                setState2(value.password);
+                handleSubmit();
+              }}
+            >
+              <img
+                src={getFileLink + value.profilePic}
+                alt=""
+                style={{
+                  height: "50px",
+                  width: "50px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+              <div className="nameID ">
+                <h3>{value.username}</h3>
+                <p>{value.userID}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

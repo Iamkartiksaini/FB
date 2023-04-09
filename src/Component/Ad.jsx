@@ -1,5 +1,6 @@
 import "../Style/Ad.scss";
 import ProfileTag from "../Pages/ProfileTag";
+import { Button } from "primereact/button";
 
 const Ad = () => {
   const images = {
@@ -24,7 +25,16 @@ const Ad = () => {
       <div className="suggestions flex flex-column  gap-2 bg-white border-round-xl">
         <div className="head flex justify-content-between align-items-center ">
           <h1>Add Friends</h1>
-          <p>Refresh</p>
+          <Button
+            title="Refresh"
+            icon="pi pi-spinner"
+            rounded
+            text
+            severity="info"
+            aria-label="User"
+            label="Refresh"
+            iconPos="right"
+          />
         </div>
         <div className="UserList">
           <ProfileTag />

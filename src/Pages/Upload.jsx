@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../Style/Upload.scss";
-import postApi from "../Redux/Api.js";
+import postApi from "../Redux/PostApi";
 import UserApi from "../Redux/UserApi";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";

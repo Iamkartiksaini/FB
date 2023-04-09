@@ -8,7 +8,6 @@ import "/node_modules/primeflex/primeflex.css";
 import store from "./Redux/store";
 import { Provider } from "react-redux";
 const App = React.lazy(() => import("./App"));
-const Setting = React.lazy(() => import("./By_Kartik/Setting"));
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>

@@ -1,36 +1,29 @@
-.ProfileTag {
-    position: relative;
-    height: 60px;
-    min-width: 300px;
-    background-color: red;
+    .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--main-bg);
 
-    &::before {
-        content: "";
-        position: absolute;
-        background-color: var(--main-bg);
-        width: 95%;
-        height: 1px;
-        bottom: -5px;
-    }
+        .left {
+            padding-bottom: 0.50rem;
 
-    .left {
-
-        img {
-            border-radius: 50%;
-            object-fit: cover;
-            height: 50px;
-            width: 50px;
-        }
-
-        .text {
-            h3 {
-                font-size: var(--name);
+            img {
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+                object-fit: cover;
             }
 
-            p {
-                font-size: var(--text);
-                color: var(--comment);
+            .nameId {
+                p {
+                    color: var(--comment);
+                }
             }
         }
+
+        i {
+            padding-right: 0.50rem;
+
+            font-size: 20px;
+        }
     }
-}

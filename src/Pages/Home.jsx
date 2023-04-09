@@ -2,8 +2,8 @@ import React, { Suspense, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-const Header = React.lazy(() => import("../Component/Header"));
 const Upload = React.lazy(() => import("./Upload"));
+const Header = React.lazy(() => import("../Component/Header"));
 const Ad = React.lazy(() => import("../Component/Ad"));
 const AllPosts = React.lazy(() => import("./AllPosts"));
 const NavBar = React.lazy(() => import("../Component/NavBar"));
@@ -45,10 +45,10 @@ const Home = () => {
       }
     >
       <div className=" Main-Container relative ">
-        {/* <DataTable /> */}
-        <Routes>
+        <Header />
+        {/* <Routes>
           <Route path="*" element={<Header />}></Route>
-        </Routes>
+        </Routes> */}
         <div className="Content-Container flex-wrap ">
           <SideBar />
           <div className="Content">
@@ -57,7 +57,6 @@ const Home = () => {
                 path="/feed"
                 element={
                   <>
-                    <Ad />
                     <Upload />
                     <div className="allPosts">
                       <AllPosts type="globle" />
@@ -72,8 +71,9 @@ const Home = () => {
               <Route path="/*" element={<Navigate to={"/feed"} />}></Route>
             </Routes>
           </div>
+          <Ad />
         </div>
-        <NavBar />
+        {/* <NavBar /> */}
       </div>
     </Suspense>
   );

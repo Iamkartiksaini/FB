@@ -41,3 +41,46 @@
     }
 
 }
+
+.Header {
+    .icons {
+        a {
+            height: 20px;
+        }
+
+        a>i {
+            color: black;
+            font-size: 20px;
+            transition: .2s ease-in;
+
+            &:hover {
+                color: var(--blue);
+            }
+        }
+
+        .card {
+            z-index: 9;
+
+            >i {
+                font-size: 20px;
+                transition: .2s ease-in;
+            }
+
+            .modal {
+                display: none;
+            }
+
+            &:hover>i {
+                color: var(--blue);
+            }
+
+            &:hover .modal {
+                display: block;
+            }
+        }
+
+        .active i {
+            color: var(--blue);
+        }
+    }
+}

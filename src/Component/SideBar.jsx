@@ -9,13 +9,15 @@ const SideBar = () => {
   const ws = useSelector((state) => state.ws);
   const dispatch = useDispatch();
 
-  ws.addEventListener("message", ({ data }) => {
-    const parseData = JSON.parse(data);
-    if (parseData.sender !== user.userID) {
-      notify();
-      console.log("notification");
-    }
-  });
+  if (ws != "") {
+    ws.addEventListener("message", ({ data }) => {
+      const parseData = JSON.parse(data);
+      if (parseData.sender !== user.userID) {
+        notify();
+        console.log("notification in sidebar", parseData);
+      }
+    });
+  }
 
   function notify() {
     // Check if the browser supports notifications
@@ -31,7 +33,7 @@ const SideBar = () => {
             data: "hello",
           });
 
-          setTimeout(notification.close.bind(notification), 15000);
+          setTimeout(notification.close.bind(notification), 10000);
         }
       });
     }

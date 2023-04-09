@@ -3,8 +3,8 @@
     border-radius: 12px;
     gap: 20px;
     position: absolute;
-   top: 0px;
-   left: 0%;
+    top: 0px;
+    left: 0%;
     height: 100%;
     width: 100%;
     animation: toleft .2s 1 forwards ease;
@@ -41,11 +41,12 @@
 
     .list {
         overflow-y: scroll;
-        height: 320px;
+        height: 300px;
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
         gap: 10px;
+        padding: 40px 0px;
 
         p {
             display: flex;

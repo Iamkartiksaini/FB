@@ -2,9 +2,18 @@ import React, { useEffect, useState } from "react";
 import UserApi from "../Redux/UserApi";
 import { useDispatch, useSelector } from "react-redux";
 import { getFileLink } from "../Redux/axiosConfig";
+import "../Style/ProfileTag.scss";
+
+const imgStyle = {
+  height: "50px",
+  width: "50px",
+  borderRadius: "50%",
+  objectFit: "cover",
+};
 
 function ProfileTag() {
   const user = useSelector((state) => state.user);
+  const ws = useSelector((state) => state.ws);
   const dispatch = useDispatch();
 
   const [suggestionList, setSuggestionList] = useState([]);
@@ -36,48 +45,58 @@ function ProfileTag() {
       userID: fr.userID,
       username: fr.username,
     };
+
     const addFriendRes = await UserApi().addFriend({ me, friend });
+
     if (addFriendRes.status == 200) {
       dispatch({
         type: "userLogin",
-        currentUser: addFriendRes.data,
+        currentUser: { ...user, ...addFriendRes.data },
       });
+      sendMessage(fr.userID);
     }
     console.log("addFriendRes", addFriendRes.data);
   }
-
+  function sendMessage(userID) {
+    ws.send(
+      JSON.stringify({
+        type: "notification",
+        data: {
+          type: "addFriend",
+          sender: {
+            _id: user._id,
+          },
+          other: {
+            userID,
+            text: user.username,
+          },
+        },
+      })
+    );
+  }
   return (
     <>
       {suggestionList.length > 0 ? (
         suggestionList.map((val, ind) => {
           return (
-            <div
-              className=" friendItem flex align-items-center gap-2 mt-2 mb-2"
-              key={ind}
-            >
-              <img
-                src={getFileLink + val.profilePic}
-                alt={getFileLink + val.profilePic}
-                style={{
-                  height: "50px",
-                  width: "50px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
-              />
-              <div className="flex flex-column  justify-content-center">
-                <h3>{val.username}</h3>
-                <p>@{val.userID}</p>
+            <div className="head" key={ind}>
+              <div className="left flex gap-2 align-items-center">
+                <img
+                  src={getFileLink + val.profilePic}
+                  alt={getFileLink + val.profilePic}
+                  style={imgStyle}
+                />
+                <div className="nameID">
+                  <h3>{val.username}</h3>
+                  <p>@{val.userID}</p>
+                </div>
               </div>
-
               <i
                 className="pi pi-user-plus"
                 onClick={() => {
                   addFriend(val);
                 }}
-              >
-                {" "}
-              </i>
+              ></i>
             </div>
           );
         })

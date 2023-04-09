@@ -25,9 +25,12 @@ function Message() {
   }, [refresh]);
 
   async function fetchData() {
-    const roomData = await UserApi().getFriendsModel(getFriendID);
-    if (roomData.status == 200 && roomData.data != null) {
-      setFriendList(roomData.data);
+    if (getFriendID.length > 0) {
+      const roomData = await UserApi().getFriendsModel(getFriendID);
+      if (roomData.status == 200 && roomData.data != null) {
+        console.log("getFriendsModel");
+        setFriendList(roomData.data);
+      }
     }
   }
 
@@ -50,30 +53,36 @@ function Message() {
       />
       <br />
       <div className="friendsList">
-        {friendList.map((val, ind) => {
-          return (
-            <div
-              className=" friendItem flex align-items-center gap-2 mt-2 mb-2"
-              key={ind}
-              onClick={() => setKey({ ...val, roomID: chatRoomID[ind].roomID })}
-            >
-              <img
-                src={getFileLink + val.profilePic}
-                alt={getFileLink + val.profilePic}
-                style={{
-                  height: "50px",
-                  width: "50px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
-              />
-              <div className="flex flex-column  justify-content-center">
-                <h3>{val.username}</h3>
-                <p>@{val.userID}</p>
+        {friendList.length > 0 ? (
+          friendList.map((val, ind) => {
+            return (
+              <div
+                className=" friendItem flex align-items-center gap-2 mt-2 mb-2"
+                key={ind}
+                onClick={() =>
+                  setKey({ ...val, roomID: chatRoomID[ind].roomID })
+                }
+              >
+                <img
+                  src={getFileLink + val.profilePic}
+                  alt={getFileLink + val.profilePic}
+                  style={{
+                    height: "50px",
+                    width: "50px",
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                />
+                <div className="flex flex-column  justify-content-center">
+                  <h3>{val.username}</h3>
+                  <p>@{val.userID}</p>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <div className="m-2">Your Friend List Is Empty</div>
+        )}
       </div>
       {roomKey !== "" ? (
         <div className="msg">

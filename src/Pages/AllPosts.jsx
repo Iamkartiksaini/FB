@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 import Posts from "./Post";
 import { useDispatch, useSelector } from "react-redux";
-import postApi from "../Redux/Api";
+import postApi from "../Redux/PostApi.js";
 
-const AllPosts = ({ type, userID }) => {
+const AllPosts = ({ type, userID = "" }) => {
   const reduxPosts = useSelector((state) => state.posts);
-  const user = useSelector((state) => state.user);
   const disPatcher = useDispatch();
 
   useEffect(() => {
@@ -28,32 +27,11 @@ const AllPosts = ({ type, userID }) => {
     <>
       {type == "globle" && reduxPosts !== "" ? (
         reduxPosts.map((val, ind) => {
-          return (
-            <Posts
-              postData={val}
-              activeUser={{
-                username: user.username,
-                userID: user.userID,
-                profilePic: user.profilePic,
-                liked: user.liked,
-              }}
-              key={ind}
-            />
-          );
+          return <Posts postData={val} key={ind} />;
         })
       ) : type === "pvt" && reduxPosts !== "" ? (
         reduxPosts.map((val, ind) => {
-          return (
-            <Posts
-              postData={val}
-              key={ind}
-              activeUser={{
-                username: user.username,
-                userID: user.userID,
-                profilePic: user.profilePic,
-              }}
-            />
-          );
+          return <Posts postData={val} key={ind} />;
         })
       ) : (
         <div>
