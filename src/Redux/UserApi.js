@@ -15,6 +15,9 @@ const UserApi = () => {
         },
       });
     },
+    search(body) {
+      return instance.post("search", body);
+    },
     getPeopleList(body) {
       return instance.post("peopleList", body);
     },

@@ -34,8 +34,13 @@
 
         i {
             padding-right: 0.50rem;
-
             font-size: 20px;
+            transition: .2s ease-in-out;
+
+            &:hover {
+                scale: 1.2;
+                color: var(--blue);
+            }
         }
     }
 

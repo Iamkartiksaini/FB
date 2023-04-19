@@ -8,10 +8,11 @@ import "/node_modules/primeflex/primeflex.css";
 import store from "./Redux/store";
 import { Provider } from "react-redux";
 const App = React.lazy(() => import("./App"));
+const Search = React.lazy(() => import("./Component/Search"));
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <App />
-    {/* <Setting /> */}
+    {/* <App /> */}
+    <Search />
   </Provider>
 );

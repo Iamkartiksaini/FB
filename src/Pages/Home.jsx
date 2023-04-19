@@ -1,17 +1,17 @@
-import React, { Suspense, useEffect } from "react";
+import React, { Suspense, useEffect, lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-const Upload = React.lazy(() => import("./Upload"));
-const Header = React.lazy(() => import("../Component/Header"));
-const Ad = React.lazy(() => import("../Component/Ad"));
-const AllPosts = React.lazy(() => import("./AllPosts"));
-const NavBar = React.lazy(() => import("../Component/NavBar"));
-const Message = React.lazy(() => import("./Message"));
-const Friends = React.lazy(() => import("./Friends"));
-const Setting = React.lazy(() => import("./Setting"));
-const Notification = React.lazy(() => import("../Component/Notification"));
-const SideBar = React.lazy(() => import("../Component/SideBar"));
+const Upload = lazy(() => import("./Upload"));
+const Header = lazy(() => import("../Component/Header"));
+const Ad = lazy(() => import("../Component/Ad"));
+const AllPosts = lazy(() => import("./AllPosts"));
+const NavBar = lazy(() => import("../Component/NavBar"));
+const Message = lazy(() => import("./Message"));
+const Friends = lazy(() => import("./Friends"));
+const Setting = lazy(() => import("./Setting"));
+const Notification = lazy(() => import("../Component/Notification"));
+const SideBar = lazy(() => import("../Component/SideBar"));
 
 const Home = () => {
   const dispatch = useDispatch();

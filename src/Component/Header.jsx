@@ -3,6 +3,7 @@ import { InputText } from "primereact/inputtext";
 import Notification from "./Notification";
 import "../Style/Upload.scss";
 import { NavLink } from "react-router-dom";
+import Search from "./Search";
 
 const Header = () => {
   return (
@@ -14,6 +15,7 @@ const Header = () => {
       <span className="p-input-icon-right">
         <i className="pi pi-search" />
         <InputText placeholder="Search" />
+        <Search />
       </span>
       {/* Icons */}
       <div className="icons flex gap-5 align-items-center">

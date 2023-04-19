@@ -27,3 +27,32 @@
             font-size: 20px;
         }
     }
+
+    .searchItem {
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        background-color: var(--main-bg);
+
+        input {
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: var(--blue);
+            color: white;
+            width: max-content;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .upper,
+        ul {
+            background-color: whitesmoke;
+        }
+
+    }

@@ -6,6 +6,7 @@ import UserApi from "../Redux/UserApi";
 import Setting from "./Setting";
 import jwt_decode from "jwt-decode";
 import { getFileLink } from "../Redux/axiosConfig";
+import "../Style/CoolBG.scss";
 
 const Login = () => {
   const [page, setPage] = useState("login");
@@ -52,12 +53,8 @@ const Login = () => {
     <div
       style={{
         height: "100vh",
-        backgroundColor: "#323232",
-        // backgroundColor: "#8BC6EC",
-        // backgroundImage:
-        //   "repeating-linear-gradient(88deg, #009688 0%, #2196F3 13%)",
       }}
-      className="align-items-center flex flex-column gap-3 justify-center justify-content-center text-blue-500"
+      className="Login  align-items-center flex flex-column gap-3 justify-center justify-content-center text-blue-500"
     >
       {page == "login" ? <h1 className="text-white">Login</h1> : null}
       {page == "login" ? (
