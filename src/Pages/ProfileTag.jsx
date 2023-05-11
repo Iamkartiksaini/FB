@@ -11,7 +11,7 @@ const imgStyle = {
   objectFit: "cover",
 };
 
-function ProfileTag() {
+function ProfileTag({ border }) {
   const user = useSelector((state) => state.user);
   const ws = useSelector((state) => state.ws);
   const dispatch = useDispatch();
@@ -79,7 +79,11 @@ function ProfileTag() {
       {suggestionList.length > 0 ? (
         suggestionList.map((val, ind) => {
           return (
-            <div className="head" key={ind}>
+            <div
+              className="head"
+              key={ind}
+              style={border || { borderBottom: "1px solid var(--main-bg)" }}
+            >
               <div className="left flex gap-2 align-items-center">
                 <img
                   src={getFileLink + val.profilePic}

@@ -1,29 +1,39 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Style/ProfileTag.scss";
 import { getFileLink } from "../Redux/axiosConfig";
 import UserApi from "../Redux/UserApi";
 
-const Search = () => {
-  const [list, updateList] = useState([]);
-  const textRef = useRef();
+const Search = ({ value, closeModel }) => {
+  const [list, updateList] = useState(null);
 
-  async function handleSubmit() {
+  useEffect(() => {
+    handleSubmit(value);
+  }, []);
+
+  useEffect(() => {
+    const cx = setTimeout(() => {
+      handleSubmit(value);
+    }, 1000);
+    return () => {
+      clearInterval(cx);
+    };
+  }, [value]);
+
+  async function handleSubmit(value) {
     const getSearchResult = await UserApi().search({
-      username: textRef.current.value,
+      username: value,
     });
     console.log("getSearchResult", getSearchResult.data);
     updateList(getSearchResult.data);
   }
   return (
     <div className="searchItem">
-      <input type="text" ref={textRef} placeholder="Search Person ....." />
-      <button onClick={handleSubmit}>Search</button>
       <div className="upper">
         <h3>Search List</h3>
-        <i className="pi pi-plus" />
+        <i className="pi pi-plus" onClick={() => closeModel(false)} />
       </div>
       <ul>
-        {list.length > 0 ? (
+        {list !== null && list.length > 0 ? (
           list.map((val, ind) => {
             return (
               <div className="head" key={ind}>
@@ -41,7 +51,7 @@ const Search = () => {
             );
           })
         ) : (
-          <p style={{ textAlign: "center" }}>No Suggestions</p>
+          <h3>No Result Found</h3>
         )}
       </ul>
     </div>

@@ -6,7 +6,6 @@ import UserApi from "../Redux/UserApi";
 import Setting from "./Setting";
 import jwt_decode from "jwt-decode";
 import { getFileLink } from "../Redux/axiosConfig";
-import "../Style/CoolBG.scss";
 
 const Login = () => {
   const [page, setPage] = useState("login");
@@ -33,9 +32,8 @@ const Login = () => {
         password: state2,
       });
       if (authResponse.status == 200) {
-        const token = authResponse.data.token;
+        const token = authResponse.data;
         var decoded = jwt_decode(token);
-        console.log("token", { ...decoded._doc, token });
         localStorage.setItem("UserToken", token);
         localStorage.setItem("FB-user", JSON.stringify(decoded._doc));
         dispatch({
@@ -53,10 +51,14 @@ const Login = () => {
     <div
       style={{
         height: "100vh",
+        backgroundColor: "#2a2f38",
       }}
       className="Login  align-items-center flex flex-column gap-3 justify-center justify-content-center text-blue-500"
     >
-      {page == "login" ? <h1 className="text-white">Login</h1> : null}
+      <i
+        className="pi pi-facebook text-5xl"
+        style={{ color: "var(--blue)", margin: "100px 0px" }}
+      ></i>
       {page == "login" ? (
         <>
           {" "}

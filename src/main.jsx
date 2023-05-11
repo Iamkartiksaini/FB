@@ -12,7 +12,7 @@ const Search = React.lazy(() => import("./Component/Search"));
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    {/* <App /> */}
-    <Search />
+    <App />
+    {/* <Search /> */}
   </Provider>
 );

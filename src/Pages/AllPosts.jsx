@@ -6,20 +6,20 @@ import postApi from "../Redux/PostApi.js";
 const AllPosts = ({ type, userID = "" }) => {
   const reduxPosts = useSelector((state) => state.posts);
   const disPatcher = useDispatch();
-
+  const x = async () => {
+    let getPostApi;
+    console.log("fetch all post data");
+    if (type == "globle" || reduxPosts == "") {
+      getPostApi = await postApi().get();
+    } else if ((type = "pvt")) {
+      getPostApi = await postApi().singleUserPost({ userID });
+    }
+    console.log(type, "Post ===>", getPostApi.data);
+    if (getPostApi.status === 200) {
+      disPatcher({ type: "update", updatedArray: getPostApi.data });
+    }
+  };
   useEffect(() => {
-    const x = async () => {
-      let getPostApi;
-      if (type == "globle" || reduxPosts == "") {
-        getPostApi = await postApi().get();
-      } else if ((type = "pvt")) {
-        getPostApi = await postApi().singleUserPost({ userID });
-      }
-      console.log(type, "Post ===>", getPostApi.data);
-      if (getPostApi.status === 200) {
-        disPatcher({ type: "update", updatedArray: getPostApi.data });
-      }
-    };
     x();
   }, []);
 

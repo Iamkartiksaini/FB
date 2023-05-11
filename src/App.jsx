@@ -5,7 +5,8 @@ import Home from "./Pages/Home";
 
 function App() {
   let authStatus = useSelector((state) => state.auth);
-  console.log("App");
+  let user = useSelector((state) => state.user);
+  console.log("App", user.username);
   return (
     <>
       <BrowserRouter>
@@ -13,10 +14,13 @@ function App() {
           {authStatus == "" ? (
             <Route path="/" element={<Login />}></Route>
           ) : (
-            <Route path="*" element={<Navigate to="/home/feed" />}></Route>
+            <Route
+              path="*"
+              element={<Navigate to={`/${user.username}/feed`} />}
+            ></Route>
           )}
           {authStatus != "" ? (
-            <Route path="/home/*" element={<Home />}></Route>
+            <Route path="/:user/*" element={<Home />}></Route>
           ) : (
             <Route path="*" element={<Navigate to="/" />}></Route>
           )}

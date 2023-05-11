@@ -1,12 +1,12 @@
 import React, { Suspense, useEffect, lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
+import Search from "../Component/Search";
 
 const Upload = lazy(() => import("./Upload"));
 const Header = lazy(() => import("../Component/Header"));
 const Ad = lazy(() => import("../Component/Ad"));
 const AllPosts = lazy(() => import("./AllPosts"));
-const NavBar = lazy(() => import("../Component/NavBar"));
 const Message = lazy(() => import("./Message"));
 const Friends = lazy(() => import("./Friends"));
 const Setting = lazy(() => import("./Setting"));
@@ -45,16 +45,13 @@ const Home = () => {
       }
     >
       <div className=" Main-Container relative ">
-        <Header />
-        {/* <Routes>
-          <Route path="*" element={<Header />}></Route>
-        </Routes> */}
+        <Header username={user.username} />
         <div className="Content-Container flex-wrap ">
           <SideBar />
           <div className="Content">
             <Routes>
               <Route
-                path="/feed"
+                path="feed"
                 element={
                   <>
                     <Upload />
@@ -68,7 +65,8 @@ const Home = () => {
               <Route path="/friends" element={<Friends />}></Route>
               <Route path="/Notification" element={<Notification />}></Route>
               <Route path="/setting" element={<Setting />}></Route>
-              <Route path="/*" element={<Navigate to={"/feed"} />}></Route>
+              <Route path="/search" element={<Search />}></Route>
+              <Route path="/*" element={<Navigate to={"feed"} />}></Route>
             </Routes>
           </div>
           <Ad />
