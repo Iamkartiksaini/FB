@@ -2,6 +2,8 @@ import React, { Suspense, useEffect, lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Search from "../Component/Search";
+import "../Style/Feed.scss";
+
 
 const Upload = lazy(() => import("./Upload"));
 const Header = lazy(() => import("../Component/Header"));
@@ -9,7 +11,7 @@ const Ad = lazy(() => import("../Component/Ad"));
 const AllPosts = lazy(() => import("./AllPosts"));
 const Message = lazy(() => import("./Message"));
 const Friends = lazy(() => import("./Friends"));
-const Setting = lazy(() => import("./Setting"));
+const Profile = lazy(() => import("./Profile"));
 const Notification = lazy(() => import("../Component/Notification"));
 const SideBar = lazy(() => import("../Component/SideBar"));
 
@@ -46,30 +48,33 @@ const Home = () => {
     >
       <div className=" Main-Container relative ">
         <Header username={user.username} />
-        <div className="Content-Container flex-wrap ">
-          <SideBar />
+        <div className="Content-Container ">
           <div className="Content">
             <Routes>
               <Route
                 path="feed"
                 element={
                   <>
-                    <Upload />
-                    <div className="allPosts">
-                      <AllPosts type="globle" />
+                    <SideBar />
+                    <div className="mainFeed">
+
+                      <Upload />
+                      <div className="allPosts">
+                        <AllPosts type="globle" />
+                      </div>
                     </div>
+                    <Ad />
                   </>
                 }
               ></Route>
               <Route path="/message" element={<Message />}></Route>
               <Route path="/friends" element={<Friends />}></Route>
               <Route path="/Notification" element={<Notification />}></Route>
-              <Route path="/setting" element={<Setting />}></Route>
+              <Route path="/profile" element={<Profile />}></Route>
               <Route path="/search" element={<Search />}></Route>
               <Route path="/*" element={<Navigate to={"feed"} />}></Route>
             </Routes>
           </div>
-          <Ad />
         </div>
         {/* <NavBar /> */}
       </div>

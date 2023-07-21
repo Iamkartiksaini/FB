@@ -38,7 +38,7 @@ const Header = ({ username }) => {
           <i className="pi pi-comments"></i>
         </NavLink>
         <NavLink to={`/${username}/feed`}>
-          <i className="pi pi-cog"></i>
+          <i className="pi pi-home"></i>
         </NavLink>
         <NavLink to={`/${username}/profile`}>
           <i className="pi pi-user"></i>

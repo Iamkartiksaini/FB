@@ -12,45 +12,19 @@
 html {
   scroll-behavior: smooth;
 }
+body {
+  background-color: var(--main-bg);
+}
 .Content-Container {
   font-family: monospace;
-  display: flex;
   padding: 20px;
-  gap: 20px;
   min-height: 100vh;
   justify-content: center;
   background-color: var(--main-bg);
+  overflow-x: hidden;
 }
 .Content-Container > * {
   border-radius: 18px;
-}
-
-.Content-Container aside {
-  flex-basis: 250px;
-}
-
-.Ad .img {
-  padding: 20px;
-  background-color: white;
-}
-.Content-Container .Content {
-  flex-basis: 40%;
-  flex-shrink: 0;
-  background-color: var(--main-bg);
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 0px 0.5rem;
-}
-.Content-Container .Content .allPosts {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 1.5rem;
-}
-.content {
-  background-image: url("./assets/Group 15.jpg");
-  background-size: contain;
-  background-repeat: no-repeat;
 }
 
 ::-webkit-scrollbar {

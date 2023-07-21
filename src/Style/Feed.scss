@@ -1,0 +1,30 @@
+.Content {
+    display: grid;
+    grid-template-columns: repeat(3, 32%);
+    gap: 30px;
+
+    .SideBar {
+        grid-column: 1/2;
+        border-radius: 18px;
+    }
+
+    .mainFeed {
+        grid-column: 2 / 3;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .allPosts {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+    }
+
+
+    .Ad {
+        grid-column: 3 / 4;
+        grid-row: 1/2;
+
+    }
+}

@@ -25,7 +25,14 @@ const Ad = () => {
       <div className="suggestions flex flex-column  gap-2 bg-white border-round-xl">
         <div className="head flex justify-content-between align-items-center ">
           <h1>Add Friends</h1>
-          <Button
+          <Button onClick={() => {
+            const x = document.querySelector(".p-button-icon.p-c.p-button-icon-right.pi.pi-spinner")
+            console.log("clicked");
+            x.animate({ transform: "rotate(720deg) " }, {
+              duration: 2000,
+              iterations: 1,
+            })
+          }}
             title="Refresh"
             icon="pi pi-spinner"
             rounded
