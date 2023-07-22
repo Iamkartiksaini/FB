@@ -1,0 +1,151 @@
+.Header {
+    overflow: hidden;
+
+    #SearchBar {
+        position: relative;
+        i {
+            color: black;
+            font-size: 20px;
+            transition: .2s ease-in;
+
+            &:hover {
+                color: var(--blue);
+            }
+        }
+
+        .pi-search {
+            top: 25px;
+        }
+
+    }
+
+    .icons {
+        a {
+            height: 20px;
+        }
+
+        a>i {
+            color: black;
+            font-size: 20px;
+            transition: .2s ease-in;
+
+            &:hover {
+                color: var(--blue);
+            }
+        }
+
+        .card {
+            position: absolute;
+            z-index: 9;
+            transform: translateX(-40px);
+
+            >i {
+                font-size: 20px;
+                transition: .2s ease-in;
+            }
+
+            .modal {
+                display: none;
+            }
+
+            &:hover>i {
+                color: var(--blue);
+            }
+
+            &:hover .modal {
+                background-color: var(--blue);
+                display: block;
+            }
+        }
+
+        .active i {
+            color: var(--blue);
+        }
+    }
+
+    .sm-navigations {
+        display: none;
+        padding: 5px 10px;
+        margin: 0px 10px;
+        border-radius: 2px;
+        transition: .3s;
+        cursor: default;
+        overflow-x: hidden;
+
+        #openButton {
+            height: 20px;
+            text-align: center;
+            color: var(--blue);
+            font-size: larger;
+            font-weight: 600;
+        }
+
+        ul {
+            transform: translateX(400px);
+            transition: .3s ease;
+            visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 50px;
+            background-color: var(--blue);
+            padding: 20px;
+            height: 100vh;
+            min-width: 200px;
+            width: 40vw;
+            backdrop-filter: blur(6px);
+            position: fixed;
+            top: 0px;
+            z-index: 5;
+            right: 0px;
+
+            a {
+                text-decoration: none;
+                padding: 10px;
+                width: 100%;
+                background-color: transparent;
+
+                &:hover {
+                    background-color: #0000002e;
+                }
+            }
+
+            i {
+                color: white;
+            }
+
+            span {
+                color: white;
+                padding: 0px 10px;
+            }
+        }
+
+        &:hover ul {
+            transform: translateX(0px);
+            visibility: visible;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .Header {
+        justify-content: space-between !important;
+        padding: 0px 20px !important;
+
+        .sm-navigations {
+            display: block;
+
+            >* {
+                border: none;
+                text-decoration: none;
+            }
+        }
+
+        .icons,
+        #SearchBar {
+            display: none !important;
+        }
+
+    }
+}

@@ -1,5 +1,4 @@
 .Upload {
-
     .preview {
         width: auto;
         height: 240px;
@@ -8,9 +7,19 @@
         align-items: center;
         overflow: hidden;
 
-        >* {
+        >img,
+        video {
             height: auto;
             width: 100%;
+        }
+
+        #removeMedia {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #0000002b;
+            border-radius: 50%;
+            padding: 5px;
         }
     }
 
@@ -40,93 +49,4 @@
         color: white;
     }
 
-}
-
-.Header {
-
-    .p-input-icon-right {
-        position: relative;
-
-        i {
-            color: black;
-            font-size: 20px;
-            transition: .2s ease-in;
-
-            &:hover {
-                color: var(--blue);
-            }
-        }
-
-        .pi-search {
-            top: 25px;
-        }
-
-        .searchItem {
-            padding: 10px;
-            width: 335px;
-            min-height: 450px;
-            right: -50px;
-            top: 100%;
-            background-color: rgba(165, 165, 165, 0.199);
-            backdrop-filter: blur(5px);
-            position: absolute;
-            margin-top: 10px;
-
-            .upper {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-
-                i {
-                    rotate: 45deg;
-                }
-            }
-
-            ul {
-                padding: 20px 0px;
-            }
-        }
-
-    }
-
-    .icons {
-        a {
-            height: 20px;
-        }
-
-        a>i {
-            color: black;
-            font-size: 20px;
-            transition: .2s ease-in;
-
-            &:hover {
-                color: var(--blue);
-            }
-        }
-
-        .card {
-            z-index: 9;
-
-            >i {
-                font-size: 20px;
-                transition: .2s ease-in;
-            }
-
-            .modal {
-                display: none;
-            }
-
-            &:hover>i {
-                color: var(--blue);
-            }
-
-            &:hover .modal {
-                display: block;
-            }
-        }
-
-        .active i {
-            color: var(--blue);
-        }
-    }
 }

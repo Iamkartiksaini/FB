@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import Notification from "./Notification";
-import "../Style/Upload.scss";
+import "../Style/Header.scss";
 import { NavLink, Outlet } from "react-router-dom";
 import Search from "./Search";
 
@@ -17,7 +17,8 @@ const Header = ({ username }) => {
         className="pi pi-facebook text-5xl"
         style={{ color: "var(--blue)" }}
       ></i>
-      <span className="p-input-icon-right">
+      {/* Search Bar */}
+      <div id="SearchBar" className="p-input-icon-right">
         <i className="pi pi-search" onClick={x} />
         <InputText
           placeholder="Search by name or id"
@@ -25,7 +26,7 @@ const Header = ({ username }) => {
           onChange={(e) => setText(e.target.value)}
         />
         {open && <Search value={text} closeModel={setOpen} />}
-      </span>
+      </div>
       {/* Icons */}
       <div className="icons flex gap-5 align-items-center">
         <div className="card flex justify-content-center">
@@ -44,10 +45,30 @@ const Header = ({ username }) => {
           <i className="pi pi-user"></i>
         </NavLink>
         <NavLink to={`/${username}/friends`}>
-          <i className="pi pi-users"></i>
+          <i className="pi pi-compass"></i>
         </NavLink>
         <Outlet />
       </div>
+      <div className="sm-navigations">
+        <i id="openButton" className="pi pi-bars" />
+        <ul id="ul" >
+          <NavLink to={`/${username}/profile`}>
+            <i className="pi pi-user"></i><span>Profile</span>
+          </NavLink>
+          <NavLink to={`/${username}/feed`}>
+            <i className="pi pi-home"></i><span>Home</span>
+          </NavLink>
+          <NavLink to={`/${username}/message`}>
+            <i className="pi pi-comments"></i> <span>Message</span>
+          </NavLink>
+          <NavLink to={`/${username}/friends`}>
+            <i className="pi pi-compass"></i><span>Friend List</span>
+          </NavLink>
+          <NavLink to={`/${username}/setting`}>
+            <i className="pi pi-cog"></i><span>Setting</span>
+          </NavLink>
+          <Outlet />
+        </ul> </div>
     </header>
   );
 };

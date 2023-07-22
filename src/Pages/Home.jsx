@@ -57,7 +57,6 @@ const Home = () => {
                   <>
                     <SideBar />
                     <div className="mainFeed">
-
                       <Upload />
                       <div className="allPosts">
                         <AllPosts type="globle" />

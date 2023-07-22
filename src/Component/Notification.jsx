@@ -10,11 +10,14 @@ const Notification = () => {
     top: "15px",
     position: "absolute",
     width: "350px",
-    backgroundColor: "rgb(217 217 217 / 49%)",
+    backgroundColor: "white",
+    color: "#3f91ab",
     padding: "20px",
     right: "50%",
     borderRadius: "10px",
     backdropFilter: "blur(3px)",
+    fontFamily: " monospace",
+    boxShadow: "0px 0px 2px 0px black inset",
   };
   const listItem = {
     width: "100%",
@@ -51,35 +54,34 @@ const Notification = () => {
         {notificationList === ""
           ? "No Notification"
           : notificationList.notifications.map((val, ind) => {
-              return (
-                <li
-                  key={ind}
-                  className="flex gap-3 align-items-center"
-                  style={listItem}
-                >
-                  <i
-                    className={`pi ${
-                      val.type == "addFriend"
-                        ? "pi-users"
-                        : val.type == "comment"
-                        ? "pi-comments"
-                        : "pi-heart-fill"
+            return (
+              <li
+                key={ind}
+                className="flex gap-3 align-items-center"
+                style={listItem}
+              >
+                <i
+                  className={`pi ${val.type == "addFriend"
+                    ? "pi-users"
+                    : val.type == "comment"
+                      ? "pi-comments"
+                      : "pi-heart-fill"
                     }`}
-                    style={{ fontSize: "20px" }}
-                  />
-                  <div className="text flex gap-1">
-                    <h4>{val.head}</h4>
-                    <p>
-                      {val.type == "addFriend"
-                        ? "has become your friend"
-                        : val.type == "comment"
+                  style={{ fontSize: "20px" }}
+                />
+                <div className="text flex gap-1">
+                  <h4 style={{ textDecoration: "underline" }} >{val.head}</h4>
+                  <p>
+                    {val.type == "addFriend"
+                      ? "has become your friend"
+                      : val.type == "comment"
                         ? `on your post ${val.postID}`
                         : `liked your post (PostID:${val.postID})`}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

@@ -48,6 +48,12 @@ function Message() {
         label="Refresh"
         iconPos="right"
         onClick={() => {
+          const x = document.querySelector(".p-button-icon.p-c.p-button-icon-right.pi.pi-spinner")
+          console.log("clicked");
+          x.animate({ transform: "rotate(720deg) " }, {
+            duration: 2000,
+            iterations: 1,
+          })
           setRefresh(refresh + 1);
         }}
       />

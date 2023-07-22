@@ -29,6 +29,8 @@
     }
 
     .searchItem {
+        position: absolute;
+        z-index: 9;
         padding: 40px;
         display: flex;
         flex-direction: column;

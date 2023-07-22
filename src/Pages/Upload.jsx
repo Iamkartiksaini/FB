@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../Style/Upload.scss";
 import postApi from "../Redux/PostApi";
 import UserApi from "../Redux/UserApi";
 import { useSelector, useDispatch } from "react-redux";
@@ -86,7 +85,8 @@ const Upload = () => {
         />
       </div>
       {previewMedia !== "" ? (
-        <div className="preview flex justify-content-center bg-black-alpha-10 border-round-xl">
+        <div className="preview relative flex justify-content-center bg-black-alpha-10 border-round-xl">
+          <i id="removeMedia" onClick={() => setPreviewMedia("")} className="pi pi-times " />
           {uploadPost.mediaType == "image" ? (
             <img src={previewMedia} alt={previewMedia} />
           ) : null}
@@ -100,7 +100,6 @@ const Upload = () => {
           ) : null}
         </div>
       ) : null}
-
       <div className="media flex gap-2 justify-content-between " id="link">
         <input
           type="file"
