@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import UserApi from "../Redux/UserApi";
 import { getFileLink } from "../Redux/axiosConfig";
 
+
 const imgStyle = {
   height: "50px",
   width: "50px",
@@ -24,10 +25,11 @@ const Friends = () => {
 
   return (
     <div className="Friends flex flex-column gap-3 p-3 bg-white border-round-2xl h-full">
+
       {list &&
         list.map((val, ind) => {
           return (
-            <div className="head" key={ind}>
+            <div className="head flex justify-content-between align-items-center " key={ind}>
               <div className="left flex gap-2 align-items-center">
                 <img
                   src={getFileLink + val.profilePic}

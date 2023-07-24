@@ -30,22 +30,20 @@ const Search = ({ value, closeModel }) => {
     <div className="searchItem">
       <div className="upper">
         <h3>Search List</h3>
-        <i className="pi pi-plus" onClick={() => closeModel(false)} />
+        <i className="pi pi-times" onClick={() => closeModel(false)} />
       </div>
       <ul>
         {list !== null && list.length > 0 ? (
           list.map((val, ind) => {
             return (
               <div className="head" key={ind}>
-                <div className="left flex gap-2 align-items-center">
-                  <img
-                    src={getFileLink + val.profilePic}
-                    alt={getFileLink + val.profilePic}
-                  />
-                  <div className="nameID">
-                    <h3>{val.username}</h3>
-                    <p>@{val.userID}</p>
-                  </div>
+                <img
+                  src={getFileLink + val.profilePic}
+                  alt={getFileLink + val.profilePic}
+                />
+                <div className="nameID">
+                  <h3>{val.username}</h3>
+                  <p>@{val.userID}</p>
                 </div>
               </div>
             );

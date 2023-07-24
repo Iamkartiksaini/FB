@@ -1,11 +1,13 @@
 .Header {
-    overflow: hidden;
+    overflow: visible;
+    height: 65px;
 
     #SearchBar {
         position: relative;
+        font-family: monospace;
+
         i {
             color: black;
-            font-size: 20px;
             transition: .2s ease-in;
 
             &:hover {

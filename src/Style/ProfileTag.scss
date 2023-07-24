@@ -1,41 +1,13 @@
-    .head {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid var(--main-bg);
-
-        .left {
-            padding-bottom: 0.50rem;
-
-            img {
-                height: 50px;
-                width: 50px;
-                border-radius: 50%;
-                object-fit: cover;
-            }
-
-            .nameId {
-                p {
-                    color: var(--comment);
-                }
-            }
-        }
-
-        i {
-            padding-right: 0.50rem;
-
-            font-size: 20px;
-        }
-    }
-
     .searchItem {
         position: absolute;
-        z-index: 9;
-        padding: 40px;
+        padding: 20px;
+        width: 300px;
         display: flex;
         flex-direction: column;
+        border-radius: 0.5rem;
         gap: 20px;
-        background-color: var(--main-bg);
+        background-color: white;
+        box-shadow: 0px 0px 17px -3px black;
 
         input {
             border: none;
@@ -52,9 +24,46 @@
             border-radius: 4px;
         }
 
-        .upper,
-        ul {
-            background-color: whitesmoke;
+        .upper {
+            display: inherit;
+            justify-content: space-between;
         }
 
+        ul {
+            display: inherit;
+            flex-direction: column;
+            gap: 20px;
+
+            .head {
+                display: flex;
+                justify-content: flex-start;
+                gap: 5px;
+                align-items: center;
+                transition: 0.1s ease-in-out;
+
+
+                img {
+                    height: 50px;
+                    width: 50px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+
+                .nameID {
+                    p {
+                        color: var(--comment);
+                    }
+                }
+
+
+                &:hover {
+                    background-color: rgb(128 128 128 / 8%);
+                    border-radius: 4px;
+
+                    .nameID {
+                        color: var(--blue);
+                    }
+                }
+            }
+        }
     }
