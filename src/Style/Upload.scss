@@ -1,11 +1,52 @@
 .Upload {
-    span {
-        // p {
-       //     color: var(--comment);
-       // }
+    .preview {
+        width: auto;
+        height: 240px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+
+        >img,
+        video {
+            height: auto;
+            width: 100%;
+        }
+
+        #removeMedia {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #0000002b;
+            border-radius: 50%;
+            padding: 5px;
+        }
     }
 
     input[type="file"] {
         display: none;
     }
+
+    #avatar {
+        border-radius: 50%;
+        object-fit: cover;
+        height: 50px;
+        width: 50px;
+        flex-shrink: 0;
+    }
+
+    #link {
+        border-top: 1px solid #e5e5e5;
+        padding-top: 10px
+    }
+
+    #postButton {
+        background-color: var(--blue);
+        border: none;
+        border-radius: 10px;
+        padding: 3px 18px;
+        font-weight: 800;
+        color: white;
+    }
+
 }

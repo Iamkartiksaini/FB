@@ -17,24 +17,35 @@ let postsInit = [
     reactions: [{ username: "preet", userID: "xyz", reactionID: "2134" }],
   },
 ];
-
-const reducer = (state = { auth: false }, action) => {
+const auth = (state = "", action) => {
   switch (action.type) {
-    case "login":
-      console.log("login");
-      return { status: true, data: action.data };
-    case "log-out":
-      return { auth: false };
+    case "auth":
+      return "auth";
+    case "logOutRefresh":
+      return "";
     default:
       return state;
   }
 };
-const posts = (state = postsInit, action) => {
+
+const user = (state = "", action) => {
+  switch (action.type) {
+    case "userLogin":
+      return action.currentUser;
+    case "logOutRefresh":
+      return "";
+    default:
+      return state;
+  }
+};
+const posts = (state = "", action) => {
   switch (action.type) {
     case "update":
       return action.updatedArray;
     case "refresh":
       return [...state, action.obj];
+    case "logOutRefresh":
+      return "";
     default:
       return state;
   }
@@ -45,15 +56,29 @@ const post_model = (state = false, action) => {
     case "open":
       console.log("login", state);
       return !state;
+    case "logOutRefresh":
+      return "";
+    default:
+      return state;
+  }
+};
+const ws = (state = "", action) => {
+  switch (action.type) {
+    case "ws":
+      return action.ws;
+    case "logOutRefresh":
+      return "";
     default:
       return state;
   }
 };
 
 const rootReducer = combineReducers({
-  auth: reducer,
   post_model,
   posts,
+  user,
+  auth,
+  ws,
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));

@@ -38,12 +38,12 @@ const Setting = () => {
         };
         const createUserResponse = await UserApi().createUser(body);
         if (createUserResponse.status == 201) {
-          usernameRef.current.value = "";
-          userIDRef.current.value = "";
-          passwordRef.current.value = "";
-          bioRef.current.value = "";
-          setImg("");
-          updateFile("");
+          // usernameRef.current.value = "";
+          // userIDRef.current.value = "";
+          // passwordRef.current.value = "";
+          // bioRef.current.value = "";
+          // setImg("");
+          // updateFile("");
           createAccountSuccfully(true);
         }
         console.log("createUserResponse", createUserResponse.data);
@@ -52,7 +52,6 @@ const Setting = () => {
       console.log({ error: error.message });
     }
   };
-
   return (
     <div className="Setting">
       {account === false ? <h1>Create Account</h1> : null}
@@ -81,17 +80,18 @@ const Setting = () => {
             )}
           </div>
           <div className="text">
-            <span>
-              <label htmlFor="name">Name</label>
+            <span className="p-float-label">
               <InputText name="name" ref={usernameRef} autoComplete="off" />
+              <label htmlFor="name">Name</label>
             </span>
-            <span>
-              <label htmlFor="userid">Userid</label>
+
+            <span className="p-float-label">
               <InputText name="userid" ref={userIDRef} autoComplete="off" />
+              <label htmlFor="userid">Userid</label>
             </span>
-            <span>
-              <label htmlFor="Password">Password</label>
+            <span className="p-float-label">
               <InputText name="Password" ref={passwordRef} autoComplete="off" />
+              <label htmlFor="Password">Password</label>
             </span>
             <span className="gender">
               <ToggleButton
@@ -107,14 +107,10 @@ const Setting = () => {
                 }}
               />
             </span>
-            <span className="bio">
-              <label htmlFor="Bio">Bio</label>
-              <textarea
-                typeof="text"
-                name="Bio"
-                ref={bioRef}
-                autoComplete="off"
-              />
+
+            <span className="p-float-label bio">
+              <InputText name="bio" ref={bioRef} autoComplete="off" />
+              <label htmlFor="bio">bio</label>
             </span>
             <Button
               type="Primary"

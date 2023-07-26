@@ -1,0 +1,40 @@
+.NavBar {
+    background-color: white;
+    position: sticky;
+    bottom: 0px;
+    width: 100%;
+
+
+    a {
+        text-decoration: none;
+        color: var(--comment);
+
+        span {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: .3s ease-in-out;
+
+            i {
+                font-size: 25px;
+            }
+
+            &:hover {
+                color: white;
+                // background-color: dimgray;
+                background: #607d8b;
+
+            }
+        }
+    }
+
+    a.active {
+        border-radius: 4px;
+        color: white;
+        background: #607d8b;
+    }
+
+
+}

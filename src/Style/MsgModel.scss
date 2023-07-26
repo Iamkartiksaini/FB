@@ -1,0 +1,103 @@
+.MsgModel {
+    background-color: white;
+    border-radius: 12px;
+    gap: 20px;
+    position: absolute;
+    top: 0px;
+    left: 0%;
+    height: 100%;
+    width: 100%;
+    animation: toleft .2s 1 forwards ease;
+
+    .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--main-bg);
+
+        .left {
+            padding-bottom: 0.50rem;
+
+            img {
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .nameId {
+                p {
+                    color: var(--comment);
+                }
+            }
+        }
+
+        i {
+            padding-right: 0.50rem;
+            font-size: 20px;
+            transition: .2s ease-in-out;
+
+            &:hover {
+                scale: 1.2;
+                color: var(--blue);
+            }
+        }
+    }
+
+    .list {
+        overflow-y: scroll;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 10px;
+        padding: 40px 0px;
+
+        p {
+            display: flex;
+            justify-content: start;
+
+            span {
+                padding: 10px;
+                border-radius: 10px 10px 10px 0px;
+                background-color: var(--main-bg);
+            }
+
+            &.right {
+                span {
+                    border-radius: 10px 10px 0px 10px;
+                }
+
+                justify-content: end;
+            }
+        }
+    }
+
+    .text {
+        position: absolute;
+        width: 98%;
+        left: 1%;
+        bottom: 1%;
+        background-color: var(--main-bg);
+        padding: 10px;
+        overflow: hidden;
+        border-radius: 10px;
+
+        textarea {
+            border-radius: 10px;
+            border: none;
+            background-color: var(--main-bg);
+        }
+
+        i {
+            font-size: 1.2rem;
+        }
+
+    }
+}
+
+@keyframes toleft {
+    0% {
+        left: 10%;
+    }
+}

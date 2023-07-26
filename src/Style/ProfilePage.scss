@@ -1,0 +1,136 @@
+// Define common colors as variables
+$primary-color: #3b5998;
+$background-color: #f0f2f5;
+
+.profile_Page {
+    grid-column: 1/-1;
+    transform: translate(-20px, -20px);
+    width: calc(100% + 20px);
+
+    .profile {
+        position: relative;
+
+        .cover {
+            width: 100%;
+            height: 200px;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .pic {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            top: 0px;
+            left: 0px;
+            transform: translate(25px, 125px);
+            border-radius: 50%;
+            border: 3px solid white;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+
+            }
+        }
+    }
+
+    .name {
+        background-color: white;
+        min-height: 80px;
+        display: flex;
+        justify-content: space-between;
+
+        .leftColumn {
+            padding: 10px 20px;
+
+            h1 {
+                transform: translate(185px, 0px);
+
+            }
+
+            p {
+                transform: translate(185px, 0px);
+                color: var(--comment);
+            }
+        }
+
+        .btns {
+            padding: 10px 20px;
+            align-items: center;
+
+
+            button {
+                margin: 0px 5px;
+                padding: 5px 10px;
+                background-color: #d9d9d9;
+                border: none;
+                border-radius: 2px;
+                font-size: var(--text);
+
+                &.active {
+                    color: white;
+                    background-color: var(--blue);
+                }
+            }
+        }
+    }
+
+    .Tabs {
+        background-color: white;
+        padding: 15px 25px;
+        border-top: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e5e5e5;
+        cursor: pointer;
+        position: relative;
+
+        p.empty {
+            background-color: var(--blue);
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            height: 3px;
+            width: 20px;
+            transform-origin: center;
+            transition: left .3s ease-out;
+        }
+
+        span {
+            font-weight: 700;
+            position: relative;
+            padding: 10px 20px;
+            transition: .3s ease;
+            margin: 0px 10px;
+            border-radius: 3px;
+
+            &:hover {
+                color: var(--blue);
+                background-color: #bbbbbb4a;
+            }
+        }
+    }
+
+    .ProfileContent {
+        padding: 20px 50px;
+
+        .Post-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .Posts {
+                border: 1px solid #d9d9d9;
+                margin: 20px 0px;
+                width: 50%;
+            }
+        }
+
+    }
+}

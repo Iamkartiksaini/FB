@@ -1,73 +1,74 @@
-import React from "react";
+import { useState } from "react";
 import { InputText } from "primereact/inputtext";
-const Header = () => {
+import Notification from "./Notification";
+import "../Style/Header.scss";
+import { NavLink, Outlet } from "react-router-dom";
+import Search from "./Search";
+
+const Header = ({ username }) => {
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState("");
+  function x() {
+    setOpen(true);
+  }
   return (
     <header className="Header bg-white h-4rem flex justify-content-around align-items-center">
       <i
         className="pi pi-facebook text-5xl"
         style={{ color: "var(--blue)" }}
       ></i>
-      <span className="p-input-icon-left">
-        <i className="pi pi-search" />
-        <InputText value={""} placeholder="Search" />
-      </span>
-      <div className="icons flex gap-4">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M14.3752 3.98156C13.6432 3.67099 12.8398 3.5 12 3.5C8.89876 3.5 6.29342 5.83189 5.95094 8.9142L5.69914 11.1804L5.69288 11.2363C5.572 12.2897 5.2291 13.3056 4.68681 14.2168L4.65795 14.265L4.07991 15.2284L4.06599 15.2516C3.81556 15.669 3.60811 16.0147 3.47327 16.301C3.33718 16.5899 3.23229 16.9025 3.28456 17.2338C3.34107 17.5919 3.5254 17.9175 3.80345 18.1502C4.06063 18.3655 4.38261 18.4364 4.70041 18.4683C5.01528 18.5 5.41847 18.5 5.90519 18.5H5.93227H18.0678H18.0949C18.5816 18.5 18.9848 18.5 19.2997 18.4683C19.6175 18.4364 19.9395 18.3655 20.1966 18.1502C20.4747 17.9175 20.659 17.5919 20.7155 17.2338C20.7678 16.9025 20.6629 16.5899 20.5268 16.301C20.392 16.0147 20.1846 15.669 19.9342 15.2517L19.9341 15.2516L19.9202 15.2284L19.3421 14.265L19.3133 14.2168C18.771 13.3056 18.4281 12.2897 18.3072 11.2363L18.3009 11.1804L18.2585 10.798C17.9455 10.9016 17.6155 10.9677 17.2737 10.9908L17.3071 11.2909L17.3137 11.3503C17.4507 12.5442 17.8393 13.6955 18.4539 14.7282L18.4846 14.7795L19.0627 15.7429C19.3306 16.1894 19.5113 16.4918 19.6221 16.7271C19.7341 16.9649 19.7321 17.0504 19.7277 17.0779C19.7089 17.1973 19.6475 17.3058 19.5548 17.3834C19.5334 17.4013 19.4612 17.447 19.1996 17.4734C18.9408 17.4994 18.5885 17.5 18.0678 17.5H5.93227C5.41159 17.5 5.05923 17.4994 4.80051 17.4734C4.53889 17.447 4.4667 17.4013 4.4453 17.3834C4.35262 17.3058 4.29118 17.1973 4.27234 17.0779C4.26799 17.0504 4.26593 16.9649 4.37796 16.7271C4.48875 16.4918 4.66952 16.1894 4.9374 15.7429L5.51544 14.7795L5.54615 14.7282C6.16074 13.6955 6.54936 12.5442 6.68636 11.3503L6.69302 11.2909L6.94482 9.02463C7.23103 6.44875 9.40831 4.5 12 4.5C12.5837 4.5 13.1464 4.59884 13.6711 4.78142C13.8695 4.48435 14.1066 4.21532 14.3752 3.98156ZM16.1893 5.17115C15.8745 5.31089 15.6025 5.52951 15.3984 5.80192C16.2932 6.6054 16.9044 7.72482 17.0524 8.99933C17.407 8.99021 17.7386 8.8888 18.0242 8.71822C17.8234 7.32034 17.155 6.08721 16.1893 5.17115Z"
-            fill="#222222"
-          />
-          <path
-            d="M9.10222 18.4059C9.27315 19.1501 9.64978 19.8077 10.1737 20.2767C10.6976 20.7458 11.3396 21 12 21C12.6604 21 13.3024 20.7458 13.8263 20.2767C14.3502 19.8077 14.7269 19.1501 14.8978 18.4059"
-            stroke="#222222"
-            strokeLinecap="round"
-          />
-          <circle cx="17" cy="7" r="2" fill="#222222" />
-        </svg>
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="12" cy="12" r="9" stroke="#222222" />
-          <circle cx="12" cy="18" r="0.5" fill="#222222" />
-          <path
-            d="M12 16V15.1432C12 14.429 12.357 13.762 12.9512 13.3659L13.5497 12.9669C14.4558 12.3628 15 11.3459 15 10.2569V10C15 8.34315 13.6569 7 12 7V7C10.3431 7 9 8.34315 9 10V10"
-            stroke="#222222"
-          />
-        </svg>
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="12"
-            cy="10"
-            r="3"
-            stroke="#222222"
-            strokeLinecap="round"
-          />
-          <circle cx="12" cy="12" r="9" stroke="#222222" />
-          <path
-            d="M18 18.7059C17.6461 17.6427 16.8662 16.7033 15.7814 16.0332C14.6966 15.3632 13.3674 15 12 15C10.6326 15 9.30341 15.3632 8.21858 16.0332C7.13375 16.7033 6.35391 17.6427 6 18.7059"
-            stroke="#222222"
-            strokeLinecap="round"
-          />
-        </svg>
+      {/* Search Bar */}
+      <div id="SearchBar" className="p-input-icon-right">
+        <i className="pi pi-search" onClick={x} />
+        <InputText
+          placeholder="Search by name or id"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+        {open && <Search value={text} closeModel={setOpen} />}
       </div>
+      {/* Icons */}
+      <div className="icons flex gap-5 align-items-center">
+        <div className="card flex justify-content-center">
+          <i className="pi pi-bell"></i>
+          <div className="modal relative">
+            <Notification />
+          </div>
+        </div>
+        <NavLink to={`/${username}/message`}>
+          <i className="pi pi-comments"></i>
+        </NavLink>
+        <NavLink to={`/${username}/feed`}>
+          <i className="pi pi-home"></i>
+        </NavLink>
+        <NavLink to={`/${username}/profile`}>
+          <i className="pi pi-user"></i>
+        </NavLink>
+        <NavLink to={`/${username}/friends`}>
+          <i className="pi pi-compass"></i>
+        </NavLink>
+        <Outlet />
+      </div>
+      <div className="sm-navigations">
+        <i id="openButton" className="pi pi-bars" />
+        <ul id="ul" >
+          <NavLink to={`/${username}/profile`}>
+            <i className="pi pi-user"></i><span>Profile</span>
+          </NavLink>
+          <NavLink to={`/${username}/feed`}>
+            <i className="pi pi-home"></i><span>Home</span>
+          </NavLink>
+          <NavLink to={`/${username}/message`}>
+            <i className="pi pi-comments"></i> <span>Message</span>
+          </NavLink>
+          <NavLink to={`/${username}/friends`}>
+            <i className="pi pi-compass"></i><span>Friend List</span>
+          </NavLink>
+          <NavLink to={`/${username}/setting`}>
+            <i className="pi pi-cog"></i><span>Setting</span>
+          </NavLink>
+          <Outlet />
+        </ul> </div>
     </header>
   );
 };

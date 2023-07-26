@@ -1,0 +1,76 @@
+@use "./Upload.scss";
+
+$breakpoint-medium: 768px;
+
+
+.Content {
+    display: grid;
+    grid-template-columns: repeat(3, 32%);
+    gap: 30px;
+
+    .SideBar {
+        grid-column: 1/2;
+        border-radius: 18px;
+    }
+
+    .mainFeed {
+        grid-column: 2 / 3;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        .allPosts {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+    }
+
+    .Ad {
+        grid-column: 3 / 4;
+        grid-row: 1/2;
+
+    }
+}
+
+@media screen and (max-width:1080px) {
+    .Content {
+        .SideBar {
+            display: none !important
+        }
+
+        .mainFeed {
+            grid-column: 1 / 3;
+        }
+    }
+}
+
+@media screen and (max-width: $breakpoint-medium) {
+    .Content {
+        display: block;
+
+        .SideBar,
+        .Ad {
+            display: none !important;
+        }
+
+        .mainFeed {
+            .media {
+
+                label p,
+                span p {
+                    display: none;
+                }
+            }
+        }
+
+        .allPosts {
+            .Posts {
+                .feed p {
+                    display: none;
+                }
+            }
+        }
+    }
+
+}

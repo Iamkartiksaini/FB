@@ -10,13 +10,55 @@
         }
     }
 
-    .AdImage {
-        background-size: cover;
-        background-position: center;
-        border-radius: .75rem;
+    .body {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        img {
+            height: 250px;
+            width: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+
+            &:nth-of-type(2) {
+                height: 175px;
+            }
+        }
+
     }
 
     .suggestions {
         padding: 20px;
+        position: relative;
+
+        .UserList {
+            min-width: fit-content;
+            min-height: 60px;
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-end;
+            overflow-y: scroll;
+
+            .ProfileTag {
+                width: 100%;
+            }
+
+            i.pi-spinner {
+                bottom: 25px;
+                font-size: 2em;
+                position: absolute;
+            }
+        }
     }
+}
+
+@media screen and (max-width:1180px) {
+    .Ad {
+        width: 90%;
+    }
+
 }

@@ -1,56 +1,59 @@
-import React, { useState, useRef } from "react";
-import { InputText } from "primereact/inputtext";
-import "../Style/Upload.scss";
-import postApi from "../Redux/Api.js";
+import React, { useState } from "react";
+import postApi from "../Redux/PostApi";
 import UserApi from "../Redux/UserApi";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import { saveFileLink, getFileLink } from "../Redux/axiosConfig";
+import { InputTextarea } from "primereact/inputtextarea";
+
+const fileAccessBaseLink = getFileLink;
 
 const Upload = () => {
-  const [value, setValue] = useState("");
-  const [img, setImg] = useState("");
-  const [upFile, updateFile] = useState("");
-  const [mType, setMtype] = useState("");
-  const imgRef = useRef();
-  const vidRef = useRef();
-
   const dispatch = useDispatch();
-
-  const body = {
-    username: "kartik",
-    userID: "kartik23",
-    dp: "https://images.pexels.com/photos/15311317/pexels-photo-15311317.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-    mediaType: mType == "" ? "" : mType,
-    text: value,
-    tag: " Gurugram,HR",
+  const user = useSelector((state) => state.user);
+  const { username, userID, profilePic } = user;
+  let initialValue = {
+    username,
+    userID,
+    dp: profilePic,
+    media: "",
+    mediaType: "",
+    text: "",
+    tag: "Gurugram,HR",
   };
-  const post = async () => {
-    let fileName = "";
-    if (mType !== "") {
-      const form = new FormData();
-      form.set("file", upFile);
-      await axios.post("http://localhost:8000/upload", form).then((res) => {
-        fileName = res.data.newField;
-        console.log("Uploading media res ", res.data);
-      });
-    }
-    body.media = upFile == "" ? "" : `http://localhost:4000/assets/${fileName}`;
-    const x = await postApi().post(body);
-    const y = await postApi().get();
-    // console.log("create post res", x);
 
-    if (x.status === 201 && y.status === 200) {
-      dispatch({ type: "update", updatedArray: y.data });
-      const userRES = await UserApi().addPost({
-        userID: "Kartik23",
-        postID: x.data._id,
-        type: "add",
-      });
-      // console.log("add in user ", userRES);
-      setValue("");
-      setMtype("");
-      imgRef.current.value = "";
-      vidRef.current.value = "";
+  const [uploadPost, setUploadPost] = useState(initialValue);
+  const [previewMedia, setPreviewMedia] = useState("");
+
+  const post = async () => {
+    if (uploadPost.mediaType !== "" || uploadPost.text !== "") {
+      let fileName = "";
+      if (uploadPost.mediaType !== "") {
+        const form = new FormData();
+        form.set("file", uploadPost.media);
+        const fileRes = await axios.post(saveFileLink, form);
+        if (fileRes.status == 201) {
+          fileName = fileRes.data.newField;
+        } else {
+          return;
+        }
+      }
+      uploadPost.media = fileName;
+      const createPost = await postApi().post(uploadPost);
+      if (createPost.status === 201) {
+        UserApi().addPost({
+          userID,
+          postID: createPost.data._id,
+          type: "add",
+        });
+        const fetchPosts = await postApi().get();
+        dispatch({ type: "update", updatedArray: fetchPosts.data });
+        setUploadPost(initialValue);
+        setPreviewMedia("");
+      }
+    } else {
+      console.log("return");
+      return;
     }
   };
 
@@ -59,43 +62,59 @@ const Upload = () => {
       <div className="share-thought flex  gap-3 align-items-center">
         <img
           id="avatar"
-          src="https://images.pexels.com/photos/15311317/pexels-photo-15311317.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+          src={
+            user !== ""
+              ? fileAccessBaseLink + user.profilePic
+              : "https://images.pexels.com/photos/15311317/pexels-photo-15311317.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+          }
           alt="profile"
         />
-        <InputText
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+        <InputTextarea
+          autoResize
+          rows={1}
           className="p-inputtext-sm p-d-block p-mb-2 border-round-2xl w-full border-0 bg-black-alpha-10"
           placeholder="Whats in your mind ?"
+          value={uploadPost.text}
+          onChange={(e) => {
+            setUploadPost((pre) => {
+              const x = { ...pre };
+              x.text = e.target.value;
+              return x;
+            });
+          }}
         />
       </div>
-      {mType !== "" ? (
-        <div className="preview flex justify-content-center bg-black-alpha-10 border-round-xl">
-          {mType == "image" ? <img src={img} alt={img} /> : null}
-          {mType == "video" ? (
+      {previewMedia !== "" ? (
+        <div className="preview relative flex justify-content-center bg-black-alpha-10 border-round-xl">
+          <i id="removeMedia" onClick={() => setPreviewMedia("")} className="pi pi-times " />
+          {uploadPost.mediaType == "image" ? (
+            <img src={previewMedia} alt={previewMedia} />
+          ) : null}
+          {uploadPost.mediaType == "video" ? (
             <video
               className="Media flex justify-content-center "
-              src={img}
-              alt={img}
+              src={previewMedia}
+              alt={previewMedia}
               controls
             />
           ) : null}
         </div>
       ) : null}
-
       <div className="media flex gap-2 justify-content-between " id="link">
         <input
           type="file"
           name="image"
           id="image"
-          ref={imgRef}
           accept="image/*"
           onClick={(e) => (e.target.value = "")}
           onChange={(e) => {
             const file = e.target.files[0];
-            setImg(URL.createObjectURL(file));
-            updateFile(file);
-            setMtype("image");
+            setPreviewMedia(URL.createObjectURL(file));
+            setUploadPost((pre) => {
+              pre.media = file;
+              pre.mediaType = "image";
+              return pre;
+            });
           }}
         />
         <label
@@ -111,60 +130,38 @@ const Upload = () => {
           name="video"
           id="video"
           accept="video/*"
-          ref={vidRef}
           onClick={(e) => (e.target.value = "")}
           onChange={(e) => {
             const file = e.target.files[0];
-            setImg(URL.createObjectURL(file));
-            updateFile(file);
-            setMtype("video");
+            setPreviewMedia(URL.createObjectURL(file));
+            setUploadPost((pre) => {
+              pre.media = file;
+              pre.mediaType = "video";
+              return pre;
+            });
           }}
         />
         <label htmlFor="video" className="flex align-items-center gap-1">
           <i className=" pi pi-video" style={{ fontSize: "1em" }}></i>
-          <p>Media</p>
+          <p>Video</p>
         </label>
         <input
           type="file"
           name="audio"
+          accept="audio/*"
           id="audio"
           onChange={(e) => {
             const file = e.target.files[0];
-            setImg(URL.createObjectURL(file));
-            updateFile(file);
-            setMtype("audio");
+            setPreviewMedia(URL.createObjectURL(file));
+            setUploadPost((pre) => {
+              pre.media = file;
+              pre.mediaType = "audio";
+              return pre;
+            });
           }}
         />
         <label htmlFor="audio" className="flex align-items-center gap-1">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              x="8"
-              y="2"
-              width="8"
-              height="13"
-              rx="4"
-              stroke="black"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M5.5 11C5.5 12.7239 6.18482 14.3772 7.40381 15.5962C8.62279 16.8152 10.2761 17.5 12 17.5C13.7239 17.5 15.3772 16.8152 16.5962 15.5962C17.8152 14.3772 18.5 12.7239 18.5 11"
-              stroke="#222222"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M12 21V19"
-              stroke="#222222"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <i className=" pi  pi-microphone" style={{ fontSize: "1em" }}></i>
           <p>Audio</p>
         </label>
         <span className="flex align-items-center gap-1 ">

@@ -1,11 +1,55 @@
-import React from "react";
-import ProfileTag from "../Pages/ProfileTag";
+import { useSelector, useDispatch } from "react-redux";
 import "../Style/SideBar.scss";
+import { Button } from "primereact/button";
+import { getFileLink } from "../Redux/axiosConfig";
+import icon from "../assets/react.svg";
 
-const AsideBar = () => {
+const SideBar = () => {
+  const user = useSelector((state) => state.user);
+  const ws = useSelector((state) => state.ws);
+  const dispatch = useDispatch();
+
+  if (ws != "") {
+    ws.addEventListener("message", ({ data }) => {
+      const parseData = JSON.parse(data);
+      if (parseData.sender !== user.userID) {
+        notify();
+        console.log("notification in sidebar", parseData);
+      }
+    });
+  }
+
+  function notify() {
+    // Check if the browser supports notifications
+    if ("Notification" in window) {
+      // Request permission for notifications
+      window.Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+          var notification = new Notification("New message", {
+            body: `${user.username} have a new message!`,
+            icon: icon,
+            badge: icon,
+            vibrate: [200, 100, 200],
+            data: "hello",
+          });
+
+          setTimeout(notification.close.bind(notification), 10000);
+        }
+      });
+    }
+  }
+
   return (
     <aside className="SideBar flex flex-column gap-1 p-2">
-      <ProfileTag />
+      <div className="head">
+        <div className="left flex gap-2 align-items-center">
+          <img src={getFileLink + user.profilePic} alt="" />
+          <div className="nameID">
+            <h3>{user.username}</h3>
+            <p>{user.userID}</p>
+          </div>
+        </div>
+      </div>
       <div className="info">
         <span className="flex align-items-center">
           <svg
@@ -71,6 +115,9 @@ const AsideBar = () => {
         <div className="flex justify-content-between">
           <p>Total Likes</p> <span>99.9k</span>
         </div>
+        <div className="flex justify-content-between">
+          <p>Friends</p> <span>{user.friends.length}</span>
+        </div>
       </div>
       <div className="Links p-2">
         <h2>Social Profile</h2>
@@ -103,7 +150,11 @@ const AsideBar = () => {
             </svg>
             <div className="text">
               <h3>Instagram</h3>
-              <p className="mt-1">http://Instagram/xyz</p>
+              <p className="mt-1">
+                {user.socialLinks != undefined
+                  ? user.socialLinks[0].address
+                  : null}
+              </p>
             </div>
           </span>
           <span className="flex align-items-center">
@@ -122,13 +173,29 @@ const AsideBar = () => {
             </svg>
             <div className="text">
               <h3>Mobile Number</h3>
-              <p className="mt-1">987765543</p>
-            </div>
+              <p className="mt-1">
+                {user.socialLinks != undefined
+                  ? user.socialLinks[1].address
+                  : null}
+              </p>
+              <br />
+            </div>{" "}
           </span>
         </div>
+        <Button
+          label="Logout"
+          icon="pi pi-upload"
+          // iconPos="right"
+          className="p-button-text p-button-plain"
+          onClick={() => {
+            localStorage.clear();
+            dispatch({ type: "userLogin", currentUser: "" });
+            dispatch({ type: "logOutRefresh" });
+          }}
+        />
       </div>
     </aside>
   );
 };
 
-export default AsideBar;
+export default SideBar;

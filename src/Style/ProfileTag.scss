@@ -1,33 +1,69 @@
-.ProfileTag {
-    position: relative;
-    height: 60px;
-&::before {
-    content: "";
-    position: absolute;
-    background-color: var(--main-bg);
-    width: 95%;
-    height: 1px;
-    bottom: -5px;
-}
+    .searchItem {
+        position: absolute;
+        padding: 20px;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        border-radius: 0.5rem;
+        gap: 20px;
+        background-color: white;
+        box-shadow: 0px 0px 17px -3px black;
 
-    .left {
-
-        img {
-            border-radius: 50%;
-            object-fit: cover;
-            height: 50px;
-            width: 50px;
+        input {
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
         }
 
-        .text {
-            h3 {
-                font-size: var(--name);
-            }
+        button {
+            background-color: var(--blue);
+            color: white;
+            width: max-content;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+        }
 
-            p {
-                font-size: var(--text);
-                color: var(--comment);
+        .upper {
+            display: inherit;
+            justify-content: space-between;
+        }
+
+        ul {
+            display: inherit;
+            flex-direction: column;
+            gap: 20px;
+
+            .head {
+                display: flex;
+                justify-content: flex-start;
+                gap: 5px;
+                align-items: center;
+                transition: 0.1s ease-in-out;
+
+
+                img {
+                    height: 50px;
+                    width: 50px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+
+                .nameID {
+                    p {
+                        color: var(--comment);
+                    }
+                }
+
+
+                &:hover {
+                    background-color: rgb(128 128 128 / 8%);
+                    border-radius: 4px;
+
+                    .nameID {
+                        color: var(--blue);
+                    }
+                }
             }
         }
     }
-}

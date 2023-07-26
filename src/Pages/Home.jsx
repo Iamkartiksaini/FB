@@ -1,57 +1,83 @@
-import React from "react";
+import React, { Suspense, useEffect, lazy } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import AsideBar from "../Component/SideBar";
-import Header from "../Component/Header";
-import Upload from "./Upload";
-import Ad from "../Component/Ad";
-import AllPosts from "./AllPosts";
-import DataTable from "../Component/DataTable";
-import NavBar from "../Component/NavBar";
-import Message from "./Message";
-import Friends from "./Friends";
-import Setting from "./Setting";
+import Search from "../Component/Search";
+import "../Style/Feed.scss";
+
+
+const Upload = lazy(() => import("./Upload"));
+const Header = lazy(() => import("../Component/Header"));
+const Ad = lazy(() => import("../Component/Ad"));
+const AllPosts = lazy(() => import("./AllPosts"));
+const Message = lazy(() => import("./Message"));
+const Friends = lazy(() => import("./Friends"));
+const Profile = lazy(() => import("./Profile"));
+const Notification = lazy(() => import("../Component/Notification"));
+const SideBar = lazy(() => import("../Component/SideBar"));
 
 const Home = () => {
-  const authStatus = useSelector((state) => state.auth);
-  localStorage.setItem("count", 1);
-  // http://localhost:4000/post/123
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:4000");
+    dispatch({ type: "ws", ws });
+    ws.addEventListener("open", () => {
+      console.log("Connection opened!");
+      ws.send(JSON.stringify({ userObjId: user._id, type: "setup" }));
+    });
+  }, []);
 
-  console.log("Home status", authStatus);
-  const { data } = authStatus;
+  // ws.addEventListener("close", () => {
+  //   console.log("connection break");
+  // });
 
   return (
-    <div className=" Main-Container relative ">
-      {/* <DataTable /> */}
-      <Routes>
-        <Route path="feed" element={<Header />}></Route>
-      </Routes>
-
-      <div className="Content-Container flex-wrap ">
-        <AsideBar />
-        <Ad />
-        <div className="Content">
-          <Routes>
-            <Route
-              path="/feed"
-              element={
-                <>
-                  <Upload />
-                  <div className="allPosts">
-                    <AllPosts type="pvt" userID={"kartik23"} />
-                  </div>
-                </>
-              }
-            ></Route>
-            <Route path="/message" element={<Message />}></Route>
-            <Route path="/friends" element={<Friends />}></Route>
-            <Route path="/*" element={<Navigate to={"/feed"} />}></Route>
-          </Routes>
+    <Suspense
+      fallback={
+        <div
+          style={{
+            height: "100vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <i className="pi pi-spin pi-spinner" style={{ fontSize: "3em" }}></i>
         </div>
-        <Setting />
+      }
+    >
+      <div className=" Main-Container relative ">
+        <Header username={user.username} />
+        <div className="Content-Container ">
+          <div className="Content">
+            <Routes>
+              <Route
+                path="feed"
+                element={
+                  <>
+                    <SideBar />
+                    <div className="mainFeed">
+                      <Upload />
+                      <div className="allPosts">
+                        <AllPosts type="globle" />
+                      </div>
+                    </div>
+                    <Ad />
+                  </>
+                }
+              ></Route>
+              <Route path="/message" element={<Message />}></Route>
+              <Route path="/friends" element={<Friends />}></Route>
+              <Route path="/Notification" element={<Notification />}></Route>
+              <Route path="/profile" element={<Profile />}></Route>
+              <Route path="/search" element={<Search />}></Route>
+              <Route path="/*" element={<Navigate to={"feed"} />}></Route>
+            </Routes>
+          </div>
+        </div>
+        {/* <NavBar /> */}
       </div>
-      <NavBar />
-    </div>
+    </Suspense>
   );
 };
 

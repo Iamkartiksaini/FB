@@ -1,76 +1,133 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import axios from "axios";
 import { useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom";
+import UserApi from "../Redux/UserApi";
+import Setting from "./Setting";
+import jwt_decode from "jwt-decode";
+import { getFileLink } from "../Redux/axiosConfig";
+
 const Login = () => {
   const [page, setPage] = useState("login");
   const [state, setState] = useState("");
   const [state2, setState2] = useState("");
-  const dispatch = useDispatch();
+  const [usersList, setUserList] = useState([]);
 
-  const handleSubmit = function () {
-    dispatch({ type: "login", data: { username: state, userID: state2 } });
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  async function fetchData() {
+    const getAllUsers = await UserApi().get();
+    if (getAllUsers.status == 200) {
+      setUserList(getAllUsers.data);
+    }
+  }
+
+  const dispatch = useDispatch();
+  const handleSubmit = async function () {
+    if (state !== "" && state2 !== "") {
+      const authResponse = await UserApi().getSingleUser({
+        userID: state,
+        password: state2,
+      });
+      if (authResponse.status == 200) {
+        const token = authResponse.data;
+        var decoded = jwt_decode(token);
+        localStorage.setItem("UserToken", token);
+        localStorage.setItem("FB-user", JSON.stringify(decoded._doc));
+        dispatch({
+          type: "userLogin",
+          currentUser: { ...decoded._doc, token },
+        });
+        dispatch({
+          type: "auth",
+        });
+      }
+    }
   };
 
-  // if (page === "login") {
-  //   axios
-  //     .post("http://localhost:4000/auth", {
-  //       userID: state,
-  //       password: state2,
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // } else if (page == "SignUp") {
-  //   axios
-  //     .post("http://localhost:4000/", {
-  //       userID: state,
-  //       password: state2,
-  //     })
-  //     .then((data) => {
-  //       console.log(data);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
-  // };
-
   return (
-    <div className="align-items-center flex flex-column gap-3 justify-center justify-content-center text-blue-500">
-      <h1>{page == "login" ? "Login" : "Create Account"} </h1>
-      <span className="p-float-label">
-        <InputText
-          id="in"
-          value={state}
-          onChange={(e) => setState(e.target.value)}
+    <div
+      style={{
+        height: "100vh",
+        backgroundColor: "#2a2f38",
+      }}
+      className="Login  align-items-center flex flex-column gap-3 justify-center justify-content-center text-blue-500"
+    >
+      <i
+        className="pi pi-facebook text-5xl"
+        style={{ color: "var(--blue)", margin: "100px 0px" }}
+      ></i>
+      {page == "login" ? (
+        <>
+          {" "}
+          <span className="p-float-label">
+            <InputText
+              id="in"
+              value={state}
+              // autoComplete="off"
+              onChange={(e) => setState(e.target.value)}
+            />
+            <label htmlFor="in">Username</label>
+          </span>
+          <span className="p-float-label">
+            <InputText
+              id="password"
+              // autoComplete="off"
+              value={state2}
+              onChange={(e) => setState2(e.target.value)}
+            />
+            <label htmlFor="password">password</label>
+          </span>{" "}
+        </>
+      ) : (
+        <Setting />
+      )}
+      {page == "login" ? (
+        <Button
+          label={page == "login" ? "Login" : "Create Account"}
+          onClick={handleSubmit}
         />
-        <label htmlFor="in">Username</label>
-      </span>
-      <span className="p-float-label">
-        <InputText
-          id="password"
-          value={state2}
-          onChange={(e) => setState2(e.target.value)}
-        />
-        <label htmlFor="password">password</label>
-      </span>
-
+      ) : null}
       <Button
-        className="bg-transparent text-blue-400"
+        className="p-button-text p-button-plain text-indigo-50"
         label={page == "login" ? "Create Account ?" : "Login ?"}
-        onClick={() =>
-          setPage((pre) => {
-            return pre == "login" ? "SignUp" : "login";
-          })
-        }
+        onClick={() => {
+          page == "login" ? setPage("Create Account") : setPage("login");
+        }}
       />
 
-      <Button
-        label={page == "login" ? "Login" : "Create Account"}
-        onClick={handleSubmit}
-      />
+      <div className="lists flex gap-3">
+        {usersList.map((value, index) => {
+          return (
+            <div
+              key={index}
+              className="head flex align-items-center gap-3 text-white"
+              onClick={() => {
+                setState(value.userID);
+                setState2(value.password);
+                handleSubmit();
+              }}
+            >
+              <img
+                src={getFileLink + value.profilePic}
+                alt=""
+                style={{
+                  height: "50px",
+                  width: "50px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+              <div className="nameID ">
+                <h3>{value.username}</h3>
+                <p>{value.userID}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
