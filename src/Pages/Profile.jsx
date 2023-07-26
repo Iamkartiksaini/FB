@@ -35,7 +35,7 @@ const Profile = () => {
                 <span>About</span>
                 <span>Photos</span>
                 <span>More</span>
-                <span>Contact Profile More Info</span>
+                <span>Extra</span>
                 <p className="empty"></p>
             </div>
             <div className="ProfileContent">
