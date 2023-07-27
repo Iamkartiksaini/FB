@@ -4,10 +4,12 @@ import Notification from "./Notification";
 import "../Style/Header.scss";
 import { NavLink, Outlet } from "react-router-dom";
 import Search from "./Search";
+import { useDispatch } from "react-redux";
 
 const Header = ({ username }) => {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  const dispatch = useDispatch();
   function x() {
     setOpen(true);
   }
@@ -66,6 +68,17 @@ const Header = ({ username }) => {
           </NavLink>
           <NavLink to={`/${username}/setting`}>
             <i className="pi pi-cog"></i><span>Setting</span>
+          </NavLink>
+          <NavLink to={`/${username}/friends`}>
+            <i className="pi pi-compass"></i> <span>Discover</span>
+          </NavLink>
+          <NavLink to={`/`} className="p-button-text p-button-plain"
+            onClick={() => {
+              localStorage.clear();
+              dispatch({ type: "userLogin", currentUser: "" });
+              dispatch({ type: "logOutRefresh" });
+            }}>
+            <i className="pi pi-upload"></i><span>Logout</span>
           </NavLink>
           <Outlet />
         </ul> </div>

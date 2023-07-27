@@ -91,7 +91,7 @@
             justify-content: center;
             align-items: flex-start;
             gap: 50px;
-            background-color: #0000006b;
+            background-image: linear-gradient(to top, #9b95cf, #6d61e7, #52c8cd);
             padding: 20px;
             height: 100vh;
             min-width: 200px;
@@ -116,6 +116,10 @@
 
             i {
                 color: white;
+            }
+
+            i.pi.pi-upload {
+                transform: rotate(90deg);
             }
 
             span {

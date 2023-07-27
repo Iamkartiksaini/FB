@@ -25,7 +25,6 @@ const Friends = () => {
 
   return (
     <div className="Friends flex flex-column gap-3 p-3 bg-white border-round-2xl h-full">
-
       {list &&
         list.map((val, ind) => {
           return (

@@ -13,12 +13,6 @@ $background-color: #f0f2f5;
         .cover {
             width: 100%;
             height: 200px;
-
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
         }
 
         .pic {
@@ -29,16 +23,17 @@ $background-color: #f0f2f5;
             left: 0px;
             transform: translate(25px, 125px);
             border-radius: 50%;
-            border: 3px solid white;
+            border: 3px solid var(--blue);
             overflow: hidden;
 
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-
-            }
         }
+
+        :is(.cover, .pic) img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
     }
 
     .name {
@@ -49,6 +44,7 @@ $background-color: #f0f2f5;
 
         .leftColumn {
             padding: 10px 20px;
+            flex-basis: 50%;
 
             h1 {
                 transform: translate(185px, 0px);
@@ -64,7 +60,8 @@ $background-color: #f0f2f5;
         .btns {
             padding: 10px 20px;
             align-items: center;
-
+            flex-basis: 50%;
+            text-align: end;
 
             button {
                 margin: 0px 5px;
@@ -82,6 +79,35 @@ $background-color: #f0f2f5;
         }
     }
 
+    .details {
+        background-color: white;
+        padding: 20px;
+
+        .bio {
+            span {
+                font-weight: 900;
+            }
+
+            h3 {
+                font-weight: 400;
+                font-style: italic;
+                font-family: monospace;
+                color: var(--comment);
+            }
+        }
+
+        .info {
+            span {
+                margin: 10px 0px;
+
+            }
+
+            i {
+                margin: 0px 10px;
+            }
+        }
+    }
+
     .Tabs {
         background-color: white;
         padding: 15px 25px;
@@ -89,6 +115,8 @@ $background-color: #f0f2f5;
         border-bottom: 1px solid #e5e5e5;
         cursor: pointer;
         position: relative;
+        display: flex;
+        flex-wrap: wrap;
 
         p.empty {
             background-color: var(--blue);
@@ -97,8 +125,7 @@ $background-color: #f0f2f5;
             left: 0px;
             height: 3px;
             width: 20px;
-            transform-origin: center;
-            transition: left .3s ease-out;
+            transition: .3s ease-out;
         }
 
         span {
@@ -132,5 +159,32 @@ $background-color: #f0f2f5;
             }
         }
 
+    }
+}
+
+@media screen and (max-width:768px) {
+    .profile_Page {
+        width: calc(100% + 40px);
+
+        .name {
+            flex-direction: column;
+            align-items: center;
+
+            .leftColumn {
+
+                h1,
+                p {
+                    transform: translate(0px, 0px);
+                }
+            }
+        }
+
+        .Post-section .Posts {
+            width: 100% !important;
+
+            .feed span p {
+                display: none;
+            }
+        }
     }
 }

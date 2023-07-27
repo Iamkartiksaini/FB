@@ -4,9 +4,9 @@
     gap: 20px;
     position: absolute;
     top: 0px;
-    left: 0%;
+    left: 104%;
     height: 100%;
-    width: 100%;
+    width: calc(100vw - 460px);
     animation: toleft .2s 1 forwards ease;
 
     .head {
@@ -99,5 +99,12 @@
 @keyframes toleft {
     0% {
         left: 10%;
+    }
+}
+
+@media screen and (max-width:768px) {
+    .MsgModel {
+        left: 0%;
+        width: calc(100vw - 40px);
     }
 }

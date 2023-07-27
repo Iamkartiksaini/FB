@@ -5,6 +5,7 @@ import UserApi from "../Redux/UserApi";
 import { useDispatch, useSelector } from "react-redux";
 import { InputText } from "primereact/inputtext";
 import { getFileLink } from "../Redux/axiosConfig";
+import Thumbnail from "../Component/Thumbnail";
 
 const Posts = ({ postData }) => {
   const dispatch = useDispatch();
@@ -104,7 +105,7 @@ const Posts = ({ postData }) => {
     <div className="Posts p-2 flex flex-column gap-3">
       <div className="head">
         <div className="left flex gap-2 align-items-center">
-          <img src={getFileLink + dp} alt="" />
+          <img src={getFileLink + dp} alt={getFileLink + dp} loading="lazy" />
           <div className="nameID">
             <h3>{username}</h3>
             <p>{userID}</p>
@@ -119,12 +120,13 @@ const Posts = ({ postData }) => {
             <img
               className="Media flex justify-content-center "
               src={getFileLink + media}
-              alt={getFileLink + media}
+              alt={getFileLink + media} loading="lazy"
               onClick={(e) => {
                 navigator.clipboard.writeText(getFileLink + media);
               }}
             />
           ) : x == true && mediaType == "video" ? (
+            // <Thumbnail link={getFileLink + media} width={200} height={200} />
             <video
               className="Media flex justify-content-center "
               src={getFileLink + media}
@@ -156,9 +158,8 @@ const Posts = ({ postData }) => {
           className="reactionHover flex gap-2 align-items-center cursor-pointer "
         >
           <i
-            className={`pi ${
-              user.liked.includes(_id) ? "pi-thumbs-up-fill" : "pi-thumbs-up"
-            }`}
+            className={`pi ${user.liked.includes(_id) ? "pi-thumbs-up-fill" : "pi-thumbs-up"
+              }`}
           ></i>
           <p>Reaction</p>
         </span>

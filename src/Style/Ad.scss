@@ -30,29 +30,8 @@
     }
 
     .suggestions {
-        padding: 20px;
+        padding: 10px;
         position: relative;
-
-        .UserList {
-            min-width: fit-content;
-            min-height: 60px;
-            display: flex;
-            gap: 10px;
-            flex-direction: column;
-            align-items: stretch;
-            justify-content: flex-end;
-            overflow-y: scroll;
-
-            .ProfileTag {
-                width: 100%;
-            }
-
-            i.pi-spinner {
-                bottom: 25px;
-                font-size: 2em;
-                position: absolute;
-            }
-        }
     }
 }
 
