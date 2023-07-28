@@ -1,13 +1,23 @@
-# Fb
+# Facebook Clone
  
 Functionallity 
 
-login 
-create Account 
-Add friend 
-Create post 
-view Posts 
-like-unlike{reactions} on post
-delete post 
-Real time Chat
-Notifications
+* Create Account 
+
+* Login
+
+* Responsive 
+
+* Add friend 
+
+* Create post 
+
+* View Posts 
+
+* like-unlike{reactions} on post
+
+* Delete post 
+
+* Real time Chat
+
+* Notifications
