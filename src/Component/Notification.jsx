@@ -27,7 +27,9 @@ const Notification = () => {
   const [notificationList, setNotificationList] = useState("");
 
   useEffect(() => {
-    fetchData();
+    if (user.Notifications) {
+      fetchData();
+    }
   }, []);
   async function fetchData() {
     const getroomData = await instance.post("chatRoom/get_notification_data", {

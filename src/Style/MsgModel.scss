@@ -4,8 +4,10 @@
     gap: 20px;
     position: absolute;
     top: 0px;
+    left: 0%;
     left: 104%;
     height: 100%;
+    width: 100%;
     width: calc(100vw - 460px);
     animation: toleft .2s 1 forwards ease;
 
@@ -61,14 +63,19 @@
                 padding: 10px;
                 border-radius: 10px 10px 10px 0px;
                 background-color: var(--main-bg);
+
+                h6 {
+                    text-align: right;
+                    color: var(--comment);
+                }
             }
 
             &.right {
+                justify-content: end;
+
                 span {
                     border-radius: 10px 10px 0px 10px;
                 }
-
-                justify-content: end;
             }
         }
     }
@@ -92,7 +99,6 @@
         i {
             font-size: 1.2rem;
         }
-
     }
 }
 

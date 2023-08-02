@@ -71,12 +71,16 @@ const MsgModel = ({ data }) => {
         {roomData !== "" ? (
           roomData.messages.length > 0 ? (
             roomData.messages.map((val, ind) => {
+              const getTime = new Date(val.sendAt).toTimeString()
+              const getDate = new Date(val.sendAt).toDateString()
+              const amPm = getTime.slice(0, 2) >= 12 ? "pm" : "am"
               return (
                 <p
                   key={ind}
                   className={user.userID == val.userID ? "right" : ""}
                 >
-                  <span>{val.text}</span>
+                  <span>{val.text} <br />
+                    <h6> {val.sendAt ? getTime.slice(0, 7) + amPm : " - time error"}</h6>      </span>
                 </p>
               );
             })

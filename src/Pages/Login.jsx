@@ -6,6 +6,7 @@ import UserApi from "../Redux/UserApi";
 import Setting from "./Setting";
 import jwt_decode from "jwt-decode";
 import { getFileLink } from "../Redux/axiosConfig";
+import "../Style/Login.scss"
 
 const Login = () => {
   const [page, setPage] = useState("login");
@@ -49,15 +50,11 @@ const Login = () => {
 
   return (
     <div
-      style={{
-        height: "100vh",
-        backgroundColor: "#2a2f38",
-      }}
-      className="Login  align-items-center flex flex-column gap-3 justify-center justify-content-center text-blue-500"
+      className="Login"
     >
       <i
         className="pi pi-facebook text-5xl"
-        style={{ color: "var(--blue)", margin: "100px 0px" }}
+        style={{ color: "white" }}
       ></i>
       {page == "login" ? (
         <>
@@ -98,12 +95,12 @@ const Login = () => {
         }}
       />
 
-      <div className="lists flex gap-3">
+      <div className="lists">
         {usersList.map((value, index) => {
           return (
             <div
               key={index}
-              className="head flex align-items-center gap-3 text-white"
+              className="head"
               onClick={() => {
                 setState(value.userID);
                 setState2(value.password);
@@ -113,12 +110,6 @@ const Login = () => {
               <img
                 src={getFileLink + value.profilePic}
                 alt=""
-                style={{
-                  height: "50px",
-                  width: "50px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
               />
               <div className="nameID ">
                 <h3>{value.username}</h3>
