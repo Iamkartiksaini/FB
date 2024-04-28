@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { InputText } from "primereact/inputtext";
 import { getFileLink } from "../Redux/axiosConfig";
 import Thumbnail from "../Component/Thumbnail";
+import { Button } from "primereact/button";
 
 const Posts = ({ postData }) => {
   const dispatch = useDispatch();
@@ -187,13 +188,13 @@ const Posts = ({ postData }) => {
           <div className="inputs pb-3">
             {/* Comment On Post */}
             <InputText ref={textRef} />
-            <button
+            <Button
               onClick={() => {
                 sendFeedtoPost("comment");
               }}
             >
               send
-            </button>
+            </Button>
           </div>
           <div className="list flex flex-column gap-3  relative">
             <span
